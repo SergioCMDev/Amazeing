@@ -1,6 +1,5 @@
 from typing import Any
-valid_keys: set[str] = {"WIDTH", "HEIGTH", "ENTRY", "EXIT", "OUTPUT_FILE",
-                        "PERFECT"}
+from utils import get_coord_value
 
 
 class Dictionary:
@@ -8,6 +7,12 @@ class Dictionary:
 
     def __init__(self):
         pass
+
+    def keys(self):
+        return self._dictionary.keys()
+
+    def items(self):
+        return self._dictionary.items()
 
     def add(self, data: list[str]) -> bool:
         if (self._dictionary.get(data[0]) is not None):
@@ -31,24 +36,21 @@ class Dictionary:
         key_size: int = len(self._dictionary.keys())
         if key_size == 0 or self._dictionary["ENTRY"] is None:
             return None
-        x, y = self._dictionary["ENTRY"]
-        return tuple(1, 2)
+        tuple_coords = get_coord_value(self._dictionary["ENTRY"])
+        return tuple_coords
 
     def get_output_file(self) -> str | None:
         key_size: int = len(self._dictionary.keys())
         if key_size == 0 or self._dictionary["OUTPUT_FILE"] is None:
             return None
-        return self._dictionary["OUTPUT_FILE"]
+        return str(self._dictionary["OUTPUT_FILE"])
   
     def get_is_perfect(self) -> bool | None:
         key_size: int = len(self._dictionary.keys())
         if key_size == 0 or self._dictionary["PERFECT"] is None:
             return None
-        return self._dictionary["PERFECT"]
+        return bool(self._dictionary["PERFECT"])
 
-# WIDTH Maze width (number of cells) WIDTH=20
-# HEIGHT Maze height HEIGHT=15
 # ENTRY Entry coordinates (x,y) ENTRY=0,0
 # EXIT Exit coordinates (x,y) EXIT=19,14
 # OUTPUT_FILE Output filename OUTPUT_FILE=maze.txt
-# PERFECT Is the maze perfect? PERFECT=True

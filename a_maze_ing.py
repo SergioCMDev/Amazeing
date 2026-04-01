@@ -1,7 +1,6 @@
 from sys import argv
-from typing import Any
-from FileNotFoundException import FileNotFoundException
 from parser import parse_file
+from dictionary import Dictionary
 
 
 def main() -> None:
@@ -10,9 +9,10 @@ def main() -> None:
         print("No se ha introducido nombre de archivo")
         return
     filename: str = input_list[1]
+    data_parsed: Dictionary | None
     try:
         with open(filename, "r") as file:
-            data_parsed: dict[str, Any] | None = parse_file(file)
+            data_parsed = parse_file(file)
     except FileNotFoundError:
         print(f"No existe archivo con nombre: {filename}")
         return

@@ -1,16 +1,7 @@
 from io import TextIOWrapper
-from typing import Any
 from dictionary import Dictionary
-
-valid_keys: set[str] = {"WIDTH", "HEIGTH", "ENTRY", "EXIT", "OUTPUT_FILE",
-                        "PERFECT"}
-
-
-# def add_to_dict(data: list[str], dictionary: dict[str, Any]) -> bool:
-#     if (dictionary.get(data[0]) is not None):
-#         return False
-#     dictionary[data[0]] = data[1]
-#     return True
+from utils import get_coord_value
+from keys import valid_keys
 
 
 def line_has_two_parts(line_parts: list[str]) -> bool:
@@ -27,30 +18,38 @@ def line_has_valid_values_parts(line_parts: list[str]) -> bool:
 def key_is_valid(key_name: str) -> bool:
     return key_name in valid_keys
 
+
 def data_for_key_valid(line_parts: list[str]) -> bool:
     key: str = line_parts[0]
     match key:
         case "WIDTH" | "HEIGTH":
             try:
                 int(line_parts[1])
+                return True
             except ValueError:
                 return False
-        case "ENTRY":
-        case "EXIT":
+        case "ENTRY" | "EXIT":
+            tuple_coords = get_coord_value(line_parts[1])
+            return True if tuple_coords is not None else False
         case "OUTPUT_FILE":
             try:
-                str(line_parts[1])
-            except ValueError:
+                filename: str = str(line_parts[1])
+                open(filename)
+                return True
+            except (ValueError, FileNotFoundError):
                 return False
         case "PERFECT":
             try:
                 bool(line_parts[1])
+                return True
             except ValueError:
                 return False
+        case _:
+            return False
 
-def parse_file(file: TextIOWrapper) -> dict[str, Any] | None:
+
+def parse_file(file: TextIOWrapper) -> Dictionary | None:
     counter: int = 0
-    data: dict[str, Any] = {}
     dictionary = Dictionary()
     for line in file.readlines():
         counter += 1
@@ -73,5 +72,4 @@ def parse_file(file: TextIOWrapper) -> dict[str, Any] | None:
             print(f"Line {counter} has a key added previously")
             continue
         print(f"Line {counter} added correctly")
-
-    return data if len(data.keys()) > 0 else None
+    return dictionary if len(dictionary.keys()) > 0 else None
