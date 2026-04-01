@@ -44,13 +44,9 @@ class Dictionary:
         if key_size == 0 or self._dictionary["OUTPUT_FILE"] is None:
             return None
         return str(self._dictionary["OUTPUT_FILE"])
-  
+
     def get_is_perfect(self) -> bool | None:
         key_size: int = len(self._dictionary.keys())
         if key_size == 0 or self._dictionary["PERFECT"] is None:
             return None
         return bool(self._dictionary["PERFECT"])
-
-# ENTRY Entry coordinates (x,y) ENTRY=0,0
-# EXIT Exit coordinates (x,y) EXIT=19,14
-# OUTPUT_FILE Output filename OUTPUT_FILE=maze.txt

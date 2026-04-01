@@ -34,6 +34,8 @@ def data_for_key_valid(line_parts: list[str]) -> bool:
         case "OUTPUT_FILE":
             try:
                 filename: str = str(line_parts[1])
+                if (filename.endswith("\n")):
+                    filename = filename.removesuffix("\n")
                 open(filename)
                 return True
             except (ValueError, FileNotFoundError):
