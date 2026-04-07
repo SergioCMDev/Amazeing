@@ -5,7 +5,7 @@ from utils import get_coord_value
 class Dictionary:
     _dictionary: dict[str, Any] = {}
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     def keys(self):
