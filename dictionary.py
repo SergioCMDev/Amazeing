@@ -1,5 +1,6 @@
 from typing import Any
 from utils import get_coord_value
+from keys import mandatory_keys
 
 
 class Dictionary:
@@ -39,6 +40,13 @@ class Dictionary:
         tuple_coords = get_coord_value(self._dictionary["ENTRY"])
         return tuple_coords
 
+    def get_exit(self) -> tuple[int, int] | None:
+        key_size: int = len(self._dictionary.keys())
+        if key_size == 0 or self._dictionary["EXIT"] is None:
+            return None
+        tuple_coords = get_coord_value(self._dictionary["EXIT"])
+        return tuple_coords
+
     def get_output_file(self) -> str | None:
         key_size: int = len(self._dictionary.keys())
         if key_size == 0 or self._dictionary["OUTPUT_FILE"] is None:
@@ -50,3 +58,6 @@ class Dictionary:
         if key_size == 0 or self._dictionary["PERFECT"] is None:
             return None
         return bool(self._dictionary["PERFECT"])
+
+    def check_mandatory_keys_are_in_dict(self) -> bool:
+        return all(key in self.keys() for key in mandatory_keys)
