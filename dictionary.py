@@ -1,4 +1,5 @@
 from typing import Any
+from collections.abc import KeysView, ItemsView
 from utils import get_coord_value
 from keys import mandatory_keys
 
@@ -9,10 +10,10 @@ class Dictionary:
     def __init__(self) -> None:
         pass
 
-    def keys(self):
+    def keys(self) -> KeysView[str]:
         return self._dictionary.keys()
 
-    def items(self):
+    def items(self) -> ItemsView[str, Any]:
         return self._dictionary.items()
 
     def add(self, data: list[str]) -> bool:
