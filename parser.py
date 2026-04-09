@@ -2,6 +2,7 @@ from io import TextIOWrapper
 from dictionary import Dictionary
 from utils import get_coord_value
 from keys import valid_keys
+import constants
 
 
 def line_has_two_parts(line_parts: list[str]) -> bool:
@@ -22,9 +23,11 @@ def key_is_valid(key_name: str) -> bool:
 def data_for_key_valid(line_parts: list[str]) -> bool:
     key: str = line_parts[0]
     match key:
-        case "WIDTH" | "HEIGTH":
+        case "WIDTH" | "HEIGHT":
             try:
-                int(line_parts[1])
+                size: int = int(line_parts[1])
+                if (size < constants.MIN_SIZE or size > constants.MAX_SIZE):
+                    return False
                 return True
             except ValueError:
                 return False

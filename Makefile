@@ -17,7 +17,7 @@ lint:
 	$(FLAKE8) .
 
 
-run: setup
+run: install
 	echo "Executing program"
 	$(PYTHON) a_maze_ing.py ee
 debug:

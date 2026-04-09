@@ -4,11 +4,13 @@ from dictionary import Dictionary
 
 
 def main() -> None:
-    input_list: list[str] = argv
-    if (len(input_list) != 2):
-        print("No se ha introducido nombre de archivo")
-        return
-    filename: str = input_list[1]
+    # input_list: list[str] = argv
+    # if (len(input_list) != 2):
+    #     print("No se ha introducido nombre de archivo")
+    #     return
+    # filename: str = input_list[1]
+    filename: str = "ee"
+
     data_parsed: Dictionary | None
     try:
         with open(filename, "r") as file:
@@ -22,10 +24,35 @@ def main() -> None:
         print("No se ha añadido un archivo de configuracion válido")
         return
 
-    for key, value in data_parsed.items():
-        print(f"Key {key}-{value}", end="")
+    # for key, value in data_parsed.items():
+    #     print(f"Key {key}-{value}", end="")
 
-    print("")
+    heigth: int | None = data_parsed.get_heigth()
+    width: int | None = data_parsed.get_width()
+    if (heigth is None or width is None):
+        return
+
+    print()
+    for heigth_it in range(0, heigth):
+        for width_it in range(0, width):
+            # print(f"({heigth_it}:{width_it})", end="")
+            if (heigth_it == 0):
+                if (width_it == 0 or width_it == width-1):
+                    print("+", end="")
+                else:
+                    print("-", end="")
+            if (heigth_it == heigth-1):
+                if (width_it == 0 or width_it == width-1):
+                    print("+", end="")
+                else:
+                    print("-", end="")
+            elif (heigth_it > 0 and heigth_it < heigth):
+                if (width_it == 0 or width_it == width-1):
+                    print("|", end="")
+                else:
+                    print("*", end="")
+
+        print()
 
 
 def get_input_response() -> int:
@@ -52,5 +79,5 @@ def get_input_response() -> int:
 
 
 if __name__ == "__main__":
-    print(get_input_response())
-    # main()
+    # print(get_input_response())
+    main()

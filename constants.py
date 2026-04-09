@@ -1,0 +1,2 @@
+MIN_SIZE = 4
+MAX_SIZE = 100
