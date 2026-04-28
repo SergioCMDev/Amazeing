@@ -1,6 +1,34 @@
-from sys import argv, stdin
+from sys import stdin
 from parser import parse_file
 from dictionary import Dictionary
+from enum import Enum
+from constants import CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
+
+class WallPosition(str, Enum):
+    NORTH = "NORTH"
+    EAST = "EAST"
+    SOUTH = "SOUTH"
+    WEST = "WEST"
+
+class Cell:
+    def __init__(self, heigth: int, width: int) -> None:
+        self.heigth: int = heigth
+        self.width: int = width
+        self.walls: list[bool] = [True, True, True, True]
+
+    def open_wall(self, position: WallPosition) -> None:
+        if (position == WallPosition.NORTH):
+            self.walls[0] = False
+        elif (position == WallPosition.EAST):
+            self.walls[1] = False
+        elif (position == WallPosition.SOUTH):
+            self.walls[2] = False
+        elif (position == WallPosition.WEST):
+            self.walls[3] = False
+
+    def open_all_walls(self) -> None:
+        for wall_it in range(0, 4):
+            self.walls[wall_it] = False
 
 
 def main() -> None:
@@ -31,26 +59,35 @@ def main() -> None:
     width: int | None = data_parsed.get_width()
     if (heigth is None or width is None):
         return
-
+    #cells => 4 walls
     print()
+    dictio: dict [tuple[int, int], Cell] = {}
     for heigth_it in range(0, heigth):
         for width_it in range(0, width):
+            cell: Cell = Cell(CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT)
+            cell.draw()
+            dictio[heigth_it, width_it] = cell
+            #Crear celdas asociandole height y widht
+            #Luego cada celda se dibuja teniendo en cuenta unos valores que podemos modificar para darles su tamaño
+            #Hay que tener en cuenta tambien que si ocupa 3 de ancho, la proxima celda debe empezar en la posicion +3
+            #Debemos comprobar sus vecinos para no poner doble barrera a sus adyacentes al igual que si abrimos un lado de x, y abrir el lado contrario en x+1, y (los vecinos ya sea arriba, abajo etc)
             # print(f"({heigth_it}:{width_it})", end="")
-            if (heigth_it == 0):
-                if (width_it == 0 or width_it == width-1):
-                    print("+", end="")
-                else:
-                    print("-", end="")
-            if (heigth_it == heigth-1):
-                if (width_it == 0 or width_it == width-1):
-                    print("+", end="")
-                else:
-                    print("-", end="")
-            elif (heigth_it > 0 and heigth_it < heigth):
-                if (width_it == 0 or width_it == width-1):
-                    print("|", end="")
-                else:
-                    print("*", end="")
+
+            # if (heigth_it == 0):
+            #     if (width_it == 0 or width_it == width-1):
+            #         print("+", end="")
+            #     else:
+            #         print("-", end="")
+            # if (heigth_it == heigth-1):
+            #     if (width_it == 0 or width_it == width-1):
+            #         print("+", end="")
+            #     else:
+            #         print("-", end="")
+            # elif (heigth_it > 0 and heigth_it < heigth):
+            #     if (width_it == 0 or width_it == width-1):
+            #         print("|", end="")
+            #     else:
+            #         print("*", end="")
 
         print()
 
