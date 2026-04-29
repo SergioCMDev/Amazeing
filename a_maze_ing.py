@@ -11,9 +11,9 @@ class WallPosition(str, Enum):
     WEST = "WEST"
 
 class Cell:
-    def __init__(self, heigth: int, width: int) -> None:
-        self.heigth: int = heigth
-        self.width: int = width
+    def __init__(self, position_x: int, position_y: int) -> None:
+        self.position_x: int = position_x
+        self.position_y: int = position_y
         self.walls: list[bool] = [True, True, True, True]
 
     def open_wall(self, position: WallPosition) -> None:
@@ -29,6 +29,26 @@ class Cell:
     def open_all_walls(self) -> None:
         for wall_it in range(0, 4):
             self.walls[wall_it] = False
+
+    def draw(self) -> None:
+        print("DRAW")
+        print()
+        for heigth_it in range(self.position_y, self.position_y + 4):
+            for width_it in range(self.position_y, self.position_y + 4):
+                if(heigth_it == self.position_y):
+                    if(width_it ==  self.position_x):
+                        print("*", end="")
+                    if (width_it > self.position_x and width_it < self.position_x + 4):
+                        print("-", end="")
+                    if(width_it == self.position_x + 3):
+                        print("*", end="")
+                if(heigth_it > self.position_y and heigth_it < self.position_y + 4):
+                    print("|", end="")
+                # if (heigth_it > self.position_y and heigth_it < self.position_y + 4):
+                #     print("|", end="")
+                # print(f"{heigth_it} - {width_it}")
+
+        # print("",end="")
 
 
 def main() -> None:
@@ -64,7 +84,7 @@ def main() -> None:
     dictio: dict [tuple[int, int], Cell] = {}
     for heigth_it in range(0, heigth):
         for width_it in range(0, width):
-            cell: Cell = Cell(CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT)
+            cell: Cell = Cell(heigth_it, width_it)
             cell.draw()
             dictio[heigth_it, width_it] = cell
             #Crear celdas asociandole height y widht
