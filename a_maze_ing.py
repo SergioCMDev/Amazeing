@@ -1,62 +1,10 @@
 from sys import stdin
 from parser import parse_file
 from dictionary import Dictionary
-from enum import Enum
-from constants import CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
+from Cell import Cell
 
-class WallPosition(str, Enum):
-    NORTH = "NORTH"
-    EAST = "EAST"
-    SOUTH = "SOUTH"
-    WEST = "WEST"
 
-class Cell:
-    def __init__(self, position_x: int, position_y: int) -> None:
-        self.position_x: int = position_x
-        self.position_y: int = position_y
-        self.walls: list[bool] = [True, True, True, True]
 
-    def open_wall(self, position: WallPosition) -> None:
-        if (position == WallPosition.NORTH):
-            self.walls[0] = False
-        elif (position == WallPosition.EAST):
-            self.walls[1] = False
-        elif (position == WallPosition.SOUTH):
-            self.walls[2] = False
-        elif (position == WallPosition.WEST):
-            self.walls[3] = False
-
-    def open_all_walls(self) -> None:
-        for wall_it in range(0, 4):
-            self.walls[wall_it] = False
-
-    def draw(self) -> None:
-        # print("DRAW", end="")
-        # print()
-        for heigth_it in range(0, CELL_SIZE_HEIGHT+1):
-            for width_it in range(0, CELL_SIZE_WIDHT+1):
-                if(heigth_it == 0):
-                    if(width_it == 0):
-                        print("*", end="")
-                    if (width_it > 0 and width_it < CELL_SIZE_WIDHT):
-                        print("-", end="")
-                    if(width_it == CELL_SIZE_WIDHT-1):
-                        print("*")
-
-                elif(heigth_it > 0 and heigth_it < CELL_SIZE_HEIGHT):
-                    if (width_it == 0):
-                        print("!", end="")
-                    if (width_it > 0 and width_it < CELL_SIZE_WIDHT):
-                        print(" ", end="")
-                    if(width_it == CELL_SIZE_WIDHT-1):
-                        print("·")
-                elif (heigth_it == CELL_SIZE_HEIGHT):
-                    if(width_it == 0):
-                        print("$", end="")
-                    if (width_it > 0 and width_it < CELL_SIZE_WIDHT):
-                        print("-", end="")
-                    if(width_it == CELL_SIZE_WIDHT-1):
-                        print("$")
 
 
 
@@ -102,21 +50,6 @@ def main() -> None:
             #Debemos comprobar sus vecinos para no poner doble barrera a sus adyacentes al igual que si abrimos un lado de x, y abrir el lado contrario en x+1, y (los vecinos ya sea arriba, abajo etc)
             # print(f"({heigth_it}:{width_it})", end="")
 
-            # if (heigth_it == 0):
-            #     if (width_it == 0 or width_it == width-1):
-            #         print("+", end="")
-            #     else:
-            #         print("-", end="")
-            # if (heigth_it == heigth-1):
-            #     if (width_it == 0 or width_it == width-1):
-            #         print("+", end="")
-            #     else:
-            #         print("-", end="")
-            # elif (heigth_it > 0 and heigth_it < heigth):
-            #     if (width_it == 0 or width_it == width-1):
-            #         print("|", end="")
-            #     else:
-            #         print("*", end="")
 
         print()
 
