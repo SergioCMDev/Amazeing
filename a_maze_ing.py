@@ -31,24 +31,33 @@ class Cell:
             self.walls[wall_it] = False
 
     def draw(self) -> None:
-        print("DRAW")
-        print()
-        for heigth_it in range(self.position_y, self.position_y + 4):
-            for width_it in range(self.position_y, self.position_y + 4):
-                if(heigth_it == self.position_y):
-                    if(width_it ==  self.position_x):
+        # print("DRAW", end="")
+        # print()
+        for heigth_it in range(0, CELL_SIZE_HEIGHT+1):
+            for width_it in range(0, CELL_SIZE_WIDHT+1):
+                if(heigth_it == 0):
+                    if(width_it == 0):
                         print("*", end="")
-                    if (width_it > self.position_x and width_it < self.position_x + 4):
+                    if (width_it > 0 and width_it < CELL_SIZE_WIDHT):
                         print("-", end="")
-                    if(width_it == self.position_x + 3):
-                        print("*", end="")
-                if(heigth_it > self.position_y and heigth_it < self.position_y + 4):
-                    print("|", end="")
-                # if (heigth_it > self.position_y and heigth_it < self.position_y + 4):
-                #     print("|", end="")
-                # print(f"{heigth_it} - {width_it}")
+                    if(width_it == CELL_SIZE_WIDHT-1):
+                        print("*")
 
-        # print("",end="")
+                elif(heigth_it > 0 and heigth_it < CELL_SIZE_HEIGHT):
+                    if (width_it == 0):
+                        print("!", end="")
+                    if (width_it > 0 and width_it < CELL_SIZE_WIDHT):
+                        print(" ", end="")
+                    if(width_it == CELL_SIZE_WIDHT-1):
+                        print("·")
+                elif (heigth_it == CELL_SIZE_HEIGHT):
+                    if(width_it == 0):
+                        print("$", end="")
+                    if (width_it > 0 and width_it < CELL_SIZE_WIDHT):
+                        print("-", end="")
+                    if(width_it == CELL_SIZE_WIDHT-1):
+                        print("$")
+
 
 
 def main() -> None:
