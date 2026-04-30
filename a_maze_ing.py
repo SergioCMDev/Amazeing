@@ -2,6 +2,7 @@ from sys import stdin
 from parser import parse_file
 from dictionary import Dictionary
 from Cell import Cell
+from constants import CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
 
 
 
@@ -39,19 +40,19 @@ def main() -> None:
     #cells => 4 walls
     print()
     dictio: dict [tuple[int, int], Cell] = {}
-    for heigth_it in range(0, heigth):
-        for width_it in range(0, width):
-            cell: Cell = Cell(heigth_it, width_it)
-            cell.draw()
-            dictio[heigth_it, width_it] = cell
+    # for heigth_it in range(0, heigth):
+    #     # for width_it in range(0, width):
+    #         cell: Cell = Cell()
+    #         cell.draw()
+    #         dictio[heigth_it] = cell
             #Crear celdas asociandole height y widht
             #Luego cada celda se dibuja teniendo en cuenta unos valores que podemos modificar para darles su tamaño
             #Hay que tener en cuenta tambien que si ocupa 3 de ancho, la proxima celda debe empezar en la posicion +3
             #Debemos comprobar sus vecinos para no poner doble barrera a sus adyacentes al igual que si abrimos un lado de x, y abrir el lado contrario en x+1, y (los vecinos ya sea arriba, abajo etc)
             # print(f"({heigth_it}:{width_it})", end="")
+    create_maze(heigth, width)
 
-
-        print()
+        # print()
 
 
 def get_input_response() -> int:
@@ -75,6 +76,51 @@ def get_input_response() -> int:
             return input
         except ValueError:
             print(f"'{readed}' no es una opción valida")
+
+def create_maze(heigth: int, width: int) -> list[str]:
+    matrix: list[str] = []
+    total_height_size = CELL_SIZE_HEIGHT* heigth
+    total_width_size = CELL_SIZE_WIDHT* width
+
+    print(f"Total height {total_height_size} | Total width {total_width_size}")
+    matrix = [" " for _ in range(0, total_height_size)]
+
+    for heigth_it in range(0, total_height_size):
+        matrix[heigth_it] = [" " for _ in range(0, total_width_size)]
+
+    for heigth_it in range(0, total_height_size):
+        print(heigth_it)
+        for width_it in range(0, total_width_size):
+            if(heigth_it == 0):
+                if(width_it == 0):
+                    matrix[heigth_it][width_it] = "*"
+                if (width_it > 0 and width_it < total_width_size):
+                    matrix[heigth_it][width_it] = "-"
+                if(width_it == total_width_size-1):
+                     matrix[heigth_it][width_it]= "*"
+
+            elif(heigth_it > 0 and heigth_it < total_height_size - 1):
+                if (width_it == 0):
+                     matrix[heigth_it][width_it] = "!"
+                if (width_it > 0 and width_it < total_width_size):
+                    matrix[heigth_it][width_it] = "+"
+                if(width_it == total_width_size-1):
+                    matrix[heigth_it][width_it] = "!"
+            elif (heigth_it == total_height_size - 1):
+                print("LAST")
+                if(width_it == 0):
+                    matrix[heigth_it][width_it] = "$"
+                if (width_it > 0 and width_it < total_width_size):
+                    matrix[heigth_it][width_it] = "-"
+                if(width_it == total_width_size-1):
+                    matrix[heigth_it][width_it] = "$"
+
+    for heigth_it in range(0, total_height_size):
+        for width_it in range(0, total_width_size):
+            print(matrix[heigth_it][width_it], end=" ")
+        print()
+    # print(matrix)
+
 
 
 if __name__ == "__main__":
