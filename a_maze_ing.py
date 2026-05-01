@@ -93,7 +93,7 @@ def create_maze(heigth: int, width: int) -> list[str]:
             elif(heigth_it > 0 and heigth_it < total_height_size - 1):
                 #Añadir logica para ver si la celda esta abierta o no
                 if (width_it == 0 or width_it == total_width_size-1):
-                     matrix[heigth_it][width_it] = "!"
+                     matrix[heigth_it][width_it] = "|"
                 elif (width_it > 0 and width_it < total_width_size):
                     matrix[heigth_it][width_it] = "+"
             elif (heigth_it == total_height_size - 1):
