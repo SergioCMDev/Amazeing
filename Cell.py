@@ -1,5 +1,5 @@
-from constants import CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
 from constants import WallPosition
+
 
 class Cell:
     def __init__(self) -> None:
@@ -21,3 +21,13 @@ class Cell:
         for wall_it in range(0, 4):
             self.walls[wall_it] = False
 
+    def draw(self) -> str:
+        if (self.walls[0]):
+            return "-"
+        elif (self.walls[1]):
+            return "|"
+        elif (self.walls[2]):
+            return "|"
+        elif (self.walls[3]):
+            return "_"
+        return " "
