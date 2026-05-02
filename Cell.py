@@ -21,13 +21,9 @@ class Cell:
         for wall_it in range(0, 4):
             self.walls[wall_it] = False
 
-    def draw(self) -> str:
-        if (self.walls[0]):
-            return "-"
-        elif (self.walls[1]):
-            return "|"
-        elif (self.walls[2]):
-            return "|"
-        elif (self.walls[3]):
-            return "_"
-        return " "
+    def draw(self) -> list[str]:
+        top = "---" if self.walls[0] else "   "
+        mid = (("|" if self.walls[3] else "  ")
+               + ("|" if self.walls[1] else "   "))
+        bot = "---" if self.walls[2] else "   "
+        return [top, mid, bot]

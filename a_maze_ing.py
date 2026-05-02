@@ -34,11 +34,6 @@ def main() -> None:
     if (heigth is None or width is None):
         return
     print()
-
-            #Luego cada celda se dibuja teniendo en cuenta unos valores que podemos modificar para darles su tamaño
-            #Hay que tener en cuenta tambien que si ocupa 3 de ancho, la proxima celda debe empezar en la posicion +3
-            #Debemos comprobar sus vecinos para no poner doble barrera a sus adyacentes al igual que si abrimos un lado de x, y abrir el lado contrario en x+1, y (los vecinos ya sea arriba, abajo etc)
-            # print(f"({heigth_it}:{width_it})", end="")
     create_maze(heigth, width)
 
 
@@ -82,27 +77,43 @@ def create_maze(heigth: int, width: int) -> list[str]:
     print_matrix(matrix, total_height_size, total_width_size)
 
 
+def draw_cell_lines(lines: list[Cell]) -> list[str]:
+    cells: list[str] = []
+    for line in lines:
+        cells.append(line.draw())
+    return cells
+
+
+corner_character = "*"
+floor_character = "-"
+
+
 def print_matrix(
         matrix: list[list[Cell]],
         total_height_size: int,
         total_width_size: int) -> None:
-    for heigth_it in range(0, total_height_size):
-        line: str = ""
-        for width_it in range(0, total_width_size):
-            if (heigth_it == 0 and (width_it == 0
-                                    or width_it == total_width_size - 1)):
-                line += "*"
-            elif (heigth_it > 0
-                  and heigth_it < total_height_size - 1
-                  and (width_it == 0
-                       or width_it == total_width_size - 1)):
-                line += "|"
-            elif (heigth_it == total_height_size - 1 and (
-                    width_it == 0 or width_it == total_width_size - 1)):
-                line += "*"
-            else:
-                line += matrix[heigth_it][width_it].draw()
-        print(line)
+    top_line: str = f"{corner_character}{
+        total_width_size * floor_character}{corner_character}"
+    bottom_line: str = f"{corner_character}{
+        total_width_size * floor_character}{corner_character}"
+
+    print(top_line)
+
+    for heigth_it in range(1, total_height_size):
+        top_line = ""
+        mid_line = ""
+        bot_line = ""
+        for cell in range(1, total_width_size):
+            # print(f"{heigth_it} {cell}")
+            cell_lines = matrix[heigth_it][cell].draw()
+            top_line += cell_lines[0]
+            mid_line += cell_lines[1]
+            bot_line += cell_lines[2]
+        print("|" + top_line + "|")
+        print("|" + mid_line + "|")
+        print("|" + bot_line + "|")
+        print()
+    print(bottom_line)
 
 
 if __name__ == "__main__":
