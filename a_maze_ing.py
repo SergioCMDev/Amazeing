@@ -67,13 +67,21 @@ def create_maze(heigth: int, width: int) -> list[str]:
 
     print(f"Total height {total_height_size} | Total width {total_width_size}")
 
-    for _ in range(0, total_height_size):
+    for heigth_it in range(0, total_height_size):
         row: list[Cell] = []
+        top_border_empty: bool = True if heigth_it == 0 else False
+        bot_border_empty: bool = True if (
+            heigth_it == total_height_size - 1) else False
+        for widht_it in range(0, total_width_size):
+            left_border_empty: bool = True if widht_it == 0 else False
+            right_border_empty: bool = True if (
+                widht_it == total_width_size-1) else False
 
-    for _ in range(0, total_height_size):
-        for _ in range(0, total_width_size):
-            row.append(Cell())
+            row.append(Cell(
+                right_border_empty,
+                left_border_empty, top_border_empty, bot_border_empty))
         matrix.append(row)
+
     print_matrix(matrix, total_height_size, total_width_size)
 
 
@@ -93,26 +101,27 @@ def print_matrix(
         total_height_size: int,
         total_width_size: int) -> None:
     top_line: str = f"{corner_character}{
-        total_width_size * floor_character}{corner_character}"
+        total_width_size * floor_character * 3}{corner_character}"
     bottom_line: str = f"{corner_character}{
-        total_width_size * floor_character}{corner_character}"
+        total_width_size * floor_character * 3}{corner_character}"
 
     print(top_line)
 
-    for heigth_it in range(1, total_height_size):
+    for heigth_it in range(0, total_height_size):
         top_line = ""
         mid_line = ""
         bot_line = ""
-        for cell in range(1, total_width_size):
+        for cell in range(0, total_width_size):
             # print(f"{heigth_it} {cell}")
             cell_lines = matrix[heigth_it][cell].draw()
+
             top_line += cell_lines[0]
             mid_line += cell_lines[1]
             bot_line += cell_lines[2]
-        print("|" + top_line + "|")
         print("|" + mid_line + "|")
-        print("|" + bot_line + "|")
-        print()
+        if (heigth_it != total_height_size - 1):
+            print("|" + bot_line + "|")
+
     print(bottom_line)
 
 
