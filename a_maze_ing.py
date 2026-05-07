@@ -100,10 +100,16 @@ def print_matrix(
         matrix: list[list[Cell]],
         total_height_size: int,
         total_width_size: int) -> None:
-    top_line: str = f"{corner_character}{
-        total_width_size * floor_character * 3}{corner_character}"
-    bottom_line: str = f"{corner_character}{
-        total_width_size * floor_character * 3}{corner_character}"
+    top_line: str = (
+        f"{corner_character}"
+        f"{total_width_size * floor_character * 3}"
+        f"{corner_character}"
+    )
+    bottom_line: str = (
+        f"{corner_character}"
+        f"{total_width_size * floor_character * 3}"
+        f"{corner_character}"
+    )
 
     print(top_line)
 
