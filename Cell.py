@@ -32,7 +32,7 @@ class Cell:
     def draw(self) -> list[str]:
         top = "---" if self.walls[0] else "   "
         mid = (("|" if self.walls[3] else " ")
-               + "  " + ("|" if self.walls[1] else " "))
+               + " " + ("|" if self.walls[1] else " "))
         bot = "---" if self.walls[2] else "   "
 
         return [top, mid, bot]
