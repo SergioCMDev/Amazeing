@@ -125,6 +125,10 @@ def print_matrix(
     print(bottom_line)
 
 
+#AQUI VA LO DEL LABERINTO
+    
+
+
 if __name__ == "__main__":
     # print(get_input_response())
     main()
