@@ -10,10 +10,10 @@ class Cell:
                                   False if right_border else True,
                                   False if bot_border else True,
                                   False if left_border else True]
-        self.right_border = right_border
-        self.left_border = left_border
-        self.top_border = top_border
-        self.bot_border = bot_border
+        # self.right_border = right_border
+        # self.left_border = left_border
+        # self.top_border = top_border
+        # self.bot_border = bot_border
 
     def open_wall(self, position: WallPosition) -> None:
         if (position == WallPosition.NORTH):

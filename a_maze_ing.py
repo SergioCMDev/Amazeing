@@ -34,7 +34,7 @@ def main() -> None:
     if (heigth is None or width is None):
         return
     print()
-    create_maze(heigth, width)
+    create_matrix(heigth, width)
 
 
 def get_input_response() -> int:
@@ -60,7 +60,7 @@ def get_input_response() -> int:
             print(f"'{readed}' no es una opción valida")
 
 
-def create_maze(heigth: int, width: int) -> list[str]:
+def create_matrix(heigth: int, width: int) -> list[str]:
     matrix: list[list[Cell]] = []
     total_height_size = CELL_SIZE_HEIGHT * heigth
     total_width_size = CELL_SIZE_WIDHT * width
