@@ -1,4 +1,4 @@
-from constants import WallPosition
+from constants import WallPosition, CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
 
 
 class Cell:
@@ -10,10 +10,6 @@ class Cell:
                                   False if right_border else True,
                                   False if bot_border else True,
                                   False if left_border else True]
-        # self.right_border = right_border
-        # self.left_border = left_border
-        # self.top_border = top_border
-        # self.bot_border = bot_border
 
     def open_wall(self, position: WallPosition) -> None:
         if (position == WallPosition.NORTH):
@@ -30,9 +26,9 @@ class Cell:
             self.walls[wall_it] = False
 
     def draw(self) -> list[str]:
-        top = "---" if self.walls[0] else "   "
+        top = "-" * CELL_SIZE_WIDHT if self.walls[0] else " " * CELL_SIZE_WIDHT
         mid = (("|" if self.walls[3] else " ")
-               + "  " + ("|" if self.walls[1] else " "))
-        bot = "---" if self.walls[2] else "   "
+               + " " * (CELL_SIZE_WIDHT - 2) + ("|" if self.walls[1] else " "))
+        bot = "-" * CELL_SIZE_WIDHT if self.walls[2] else " " * CELL_SIZE_WIDHT
 
         return [top, mid, bot]
