@@ -122,6 +122,7 @@ def print_matrix(
             top_line += cell_lines[0]
             mid_line += cell_lines[1]
             bot_line += cell_lines[2]
+
         print("|" + mid_line + "|")
         if (heigth_it != total_height_size - 1):
             print("|" + bot_line + "|")

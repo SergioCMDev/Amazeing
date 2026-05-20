@@ -3,7 +3,7 @@ from constants import WallPosition, CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
 
 class Cell:
     def __init__(self,
-                 starting_value: int = 0, editable: bool = True
+                 starting_value: int = 0
                  ) -> None:
         self.starting_value: int = starting_value
         self.value: int = starting_value

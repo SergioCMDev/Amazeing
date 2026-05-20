@@ -58,7 +58,7 @@ def add_42(num_matrix: list[list[int]], visited: list[tuple], total_height_size:
     num_matrix[int(pixel_5[0])][int(pixel_5[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.WEST])) # 8 + 4 izq y abajo
     num_matrix[int(pixel_6[0])][int(pixel_6[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))  # abajo y arriba
     num_matrix[int(pixel_7[0])][int(pixel_7[1])] = Cell(get_value_of_positions([WallPosition.NORTH], )) # arriba
-    
+    num_matrix[int(pixel_8[0])][int(pixel_5[1])] = Cell(get_value_of_positions([WallPosition.EAST]))
     num_matrix[int(pixel_9[0])][int(pixel_9[1])] = Cell(get_value_of_positions([WallPosition.WEST])) # 8 + 4 izq y abajo
     num_matrix[int(pixel_10[0])][int(pixel_10[1])] = Cell(get_value_of_positions([WallPosition.WEST, WallPosition.SOUTH]))
     num_matrix[int(pixel_11[0])][int(pixel_11[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
@@ -94,62 +94,70 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Ce
     num_matrix: list[list[Cell]] = []
     for _ in range(0, total_height_size):
         row: list[Cell] = []
-        for _ in range(0, total_width_size):
-            row.append(Cell())
+        for width in range(0, total_width_size):
+            value: int = 0
+            if(width == 0):
+                value = get_value_of_positions(WallPosition.EAST)
+            row.append(Cell(value))
         num_matrix.append(row)
     visited: list[tuple] = []
     random.seed(1) # Cambiar
     num_matrix = add_42(num_matrix, visited, total_height_size, total_width_size)
     start_point: tuple[int, int] = take_start_point(total_height_size, total_width_size, visited)
-    visited.append(start_point)
-    #num_matrix[start_point[0]][start_point[1]] = 20
-    trash: list[tuple] = [start_point]
+    start_point = (2,3)
+    stack: list[tuple] = []
     up: tuple[int, int] =  (-1, 0)      # + 2
     down: tuple[int, int] = (1, 0)      # + 1
     right: tuple[int, int] = (0, 1)     # + 4
     left: tuple[int, int] = (0, -1)     # + 8
-    direcctions: list[tuple] = [up, down, right, left]
+    directions: list[tuple] = [up, down, right, left]
     current_cord: tuple[int, int] = start_point
     temp_cord: tuple[int, int]
-    #print(f"initial visited len {len(visited)}") #TODO borrar
-    #while len(visited) != (total_height_size * total_width_size):
-    #    random.shuffle(direcctions)
-    #    found_valid: bool = False
-    #    for random_direc in direcctions:
-    #        temp_cord = (current_cord[0] + random_direc[0], current_cord[1] + random_direc[1])
-    #        if temp_cord in visited:
-    #            continue
-    #        if not (0 <= temp_cord[0] < total_height_size and 0 <= temp_cord[1] < total_width_size):
-    #            continue
-            
-    #        current_cord = temp_cord
-    #        if random_direc == up:
-    #            visited.append(current_cord)
-    #            trash.append(current_cord)
-    #            num_matrix[current_cord[0]][current_cord[1]].value += 1      #vacio!
-    #            num_matrix[current_cord[0]+ 1][current_cord[1]].value += 2   #rompo pared de abajo y    juntanterior con este
-    #            found_valid = True
-    #        elif random_direc == down:
-    #            visited.append(current_cord)
-    #            trash.append(current_cord)
-    #            num_matrix[current_cord[0]][current_cord[1]].value += 4       #vacio
-    #            num_matrix[current_cord[0] - 1][current_cord[1]].value += 8    #rompo pared de arriba y junto anterior con este
-    #            found_valid = True
-    #        elif random_direc == right:
-    #            visited.append(current_cord)
-    #            trash.append(current_cord)
-    #            num_matrix[current_cord[0]][current_cord[1]].value += 2       #vacio
-    #            num_matrix[current_cord[0]][current_cord[1] - 1].value += 1   #rompo pared de izquierda y junto con lo anterior
-    #            found_valid = True
-    #        elif random_direc == left:
-    #            visited.append(current_cord)
-    #            trash.append(current_cord)
-    #            num_matrix[current_cord[0]][current_cord[1]].value += 8        #vacio 
-    #            num_matrix[current_cord[0]][current_cord[1]+ 1].value += 4     #rompo pared de derecha y junto con lo anterior
-    #            found_valid = True
-    #        break
-    #    if not found_valid:
-    #        current_cord = trash.pop()    
+    print(f"initial visited len {len(visited)}") #TODO borrar
+    print_matrix(num_matrix, total_height_size, total_width_size)
+
+    while len(visited) != (total_height_size * total_width_size):
+        random.shuffle(directions)
+        found_valid: bool = False
+        if (not current_cord in visited):
+            visited.append(current_cord)
+        #print(f"VISITED {current_cord} --- {len(visited)}")
+        for random_direc in directions:
+            temp_cord = (current_cord[0] + random_direc[0], current_cord[1] + random_direc[1])
+            if not (0 <= temp_cord[0] < total_height_size and 0 <= temp_cord[1] < total_width_size):
+                continue
+            if temp_cord in visited:
+                continue
+            #print(f"CURRENT {current_cord}")
+            if random_direc == up:
+                num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.NORTH])
+                if (current_cord[0] - 1 >= 0):
+                    num_matrix[current_cord[0] - 1][current_cord[1]].value += get_value_of_positions([WallPosition.SOUTH])   #rompo pared de abajo y    juntanterior con este
+                found_valid = True
+            elif random_direc == down:
+                num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.SOUTH])         
+                if (current_cord[0] + 1 < total_height_size):
+                    num_matrix[current_cord[0] + 1][current_cord[1]].value += get_value_of_positions([WallPosition.NORTH])      #rompo pared de arriba y junto anterior con este
+                found_valid = True
+            elif random_direc == right:
+                num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.EAST])       
+                if (current_cord[1] + 1 < total_width_size):
+                    num_matrix[current_cord[0]][current_cord[1] + 1].value += get_value_of_positions([WallPosition.WEST])   #rompo pared de izquierda y junto con lo anterior
+                found_valid = True
+            elif random_direc == left:
+                num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.WEST])
+                num_matrix[current_cord[0]][current_cord[1]- 1].value += get_value_of_positions([WallPosition.EAST])
+                found_valid = True
+            stack.append(current_cord)
+            current_cord = temp_cord
+            break
+        if not found_valid:
+            if len(stack) > 0:
+                current_cord = stack.pop() 
+                #print(f"POP {current_cord}")
+            else:
+                #print("STOP")
+                break  
     #print(f"2 - {len(visited)}") #TODO borrar
 
     
