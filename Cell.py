@@ -3,13 +3,10 @@ from constants import WallPosition, CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
 
 class Cell:
     def __init__(self,
-                 right_border: bool = False, left_border: bool = False,
-                 top_border: bool = False, bot_border: bool = False
+                 starting_value: int
                  ) -> None:
-        self.walls: list[bool] = [False if top_border else True,
-                                  False if right_border else True,
-                                  False if bot_border else True,
-                                  False if left_border else True]
+        self.value: int = starting_value
+
 
     def open_wall(self, position: WallPosition) -> None:
         if (position == WallPosition.NORTH):
@@ -26,9 +23,9 @@ class Cell:
             self.walls[wall_it] = False
 
     def draw(self) -> list[str]:
-        top = "-" * CELL_SIZE_WIDHT if self.walls[0] else " " * CELL_SIZE_WIDHT
-        mid = (("|" if self.walls[3] else " ")
-               + " " * (CELL_SIZE_WIDHT - 2) + ("|" if self.walls[1] else " "))
-        bot = "-" * CELL_SIZE_WIDHT if self.walls[2] else " " * CELL_SIZE_WIDHT
+        top = "-" * CELL_SIZE_WIDHT if self.value % 2 else " " * CELL_SIZE_WIDHT
+        mid = (("|" if self.value - 8 >= 0 else " "))
+            #   + " " * (CELL_SIZE_WIDHT - 2) + ("|" if self.walls[1] else " "))
+        bot = "-" * CELL_SIZE_WIDHT if self.value - 4 >= 0 else " " * CELL_SIZE_WIDHT
 
         return [top, mid, bot]
