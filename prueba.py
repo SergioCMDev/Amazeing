@@ -1,6 +1,7 @@
 import random
 from Cell import Cell
 from a_maze_ing import print_matrix
+from constants import WallPosition
 
 def take_start_point(total_height_size: int, total_width_size: int, visited: list[tuple]) -> tuple[int, int]:
     while True:
@@ -16,6 +17,19 @@ def take_start_point(total_height_size: int, total_width_size: int, visited: lis
     else:
         return take_start_point(total_height_size, total_width_size, visited)
 
+def get_value_of_positions(positions : list[WallPosition]) -> int:
+    value: int = 0
+    for pos in positions:
+        if (pos == WallPosition.NORTH):
+            value += 1
+        if (pos == WallPosition.EAST):
+            value += 2
+        if (pos == WallPosition.SOUTH):
+            value += 4
+        if (pos == WallPosition.WEST):
+            value += 8
+    return value
+
 
 def add_42(num_matrix: list[list[int]], visited: list[tuple], total_height_size: int, total_width_size: int) -> list[list[int]]:
     pixel_1: tuple[int, int] = (total_height_size / 2 - 2, total_width_size / 2 - 3)
@@ -25,6 +39,7 @@ def add_42(num_matrix: list[list[int]], visited: list[tuple], total_height_size:
     pixel_5: tuple[int, int] = (total_height_size / 2, total_width_size / 2 - 1)
     pixel_6: tuple[int, int] = (total_height_size / 2 + 1, total_width_size / 2 - 1)
     pixel_7: tuple[int, int] = (total_height_size / 2 + 2, total_width_size / 2 - 1) # hasta aqui el 4
+    
     pixel_8: tuple[int, int] = (total_height_size / 2 - 2, total_width_size / 2 + 1)
     pixel_9: tuple[int, int] = (total_height_size / 2 - 2, total_width_size / 2 + 2)
     pixel_10: tuple[int, int] = (total_height_size / 2 - 2, total_width_size / 2 + 3)
@@ -36,24 +51,24 @@ def add_42(num_matrix: list[list[int]], visited: list[tuple], total_height_size:
     pixel_16: tuple[int, int] = (total_height_size / 2 + 2, total_width_size / 2 + 1)
     pixel_17: tuple[int, int] = (total_height_size / 2 + 2, total_width_size / 2 + 2)
     pixel_18: tuple[int, int] = (total_height_size / 2 + 2, total_width_size / 2 + 3) # hasta aqui el 2                 
-    num_matrix[int(pixel_1[0])][int(pixel_1[1])] = Cell(1)
-    num_matrix[int(pixel_2[0])][int(pixel_2[1])] = Cell(3)
-    num_matrix[int(pixel_3[0])][int(pixel_3[1])] = Cell(4)
-    num_matrix[int(pixel_4[0])][int(pixel_4[1])] = Cell(12)
-    num_matrix[int(pixel_5[0])][int(pixel_5[1])] = Cell(9)
-    num_matrix[int(pixel_6[0])][int(pixel_6[1])] = Cell(3)
-    num_matrix[int(pixel_7[0])][int(pixel_7[1])] = Cell(2)
-    num_matrix[int(pixel_8[0])][int(pixel_8[1])] = Cell(4)
-    num_matrix[int(pixel_9[0])][int(pixel_9[1])] = Cell(12)
-    num_matrix[int(pixel_10[0])][int(pixel_10[1])] = Cell(9)
-    num_matrix[int(pixel_11[0])][int(pixel_11[1])] = Cell(3)
-    num_matrix[int(pixel_12[0])][int(pixel_12[1])] = Cell(10)
-    num_matrix[int(pixel_13[0])][int(pixel_13[1])] = Cell(12)
-    num_matrix[int(pixel_14[0])][int(pixel_14[1])] = Cell(5)
-    num_matrix[int(pixel_15[0])][int(pixel_15[1])] = Cell(3)
-    num_matrix[int(pixel_16[0])][int(pixel_16[1])] = Cell(6)
-    num_matrix[int(pixel_17[0])][int(pixel_17[1])] = Cell(12)
-    num_matrix[int(pixel_18[0])][int(pixel_18[1])] = Cell(8)
+    num_matrix[int(pixel_1[0])][int(pixel_1[1])] = Cell(get_value_of_positions([WallPosition.SOUTH])) # 4 solo abajo
+    num_matrix[int(pixel_2[0])][int(pixel_2[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH])) # 4 + 1 abajo y arriba
+    num_matrix[int(pixel_3[0])][int(pixel_3[1])] = Cell(get_value_of_positions([WallPosition.NORTH])) # 1 +2 arriba y derecha
+    num_matrix[int(pixel_4[0])][int(pixel_4[1])] = Cell(get_value_of_positions([WallPosition.WEST])) #8 +2 derecha e izq
+    num_matrix[int(pixel_5[0])][int(pixel_5[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.WEST])) # 8 + 4 izq y abajo
+    num_matrix[int(pixel_6[0])][int(pixel_6[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))  # abajo y arriba
+    num_matrix[int(pixel_7[0])][int(pixel_7[1])] = Cell(get_value_of_positions([WallPosition.NORTH], )) # arriba
+    
+    num_matrix[int(pixel_9[0])][int(pixel_9[1])] = Cell(get_value_of_positions([WallPosition.WEST])) # 8 + 4 izq y abajo
+    num_matrix[int(pixel_10[0])][int(pixel_10[1])] = Cell(get_value_of_positions([WallPosition.WEST, WallPosition.SOUTH]))
+    num_matrix[int(pixel_11[0])][int(pixel_11[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
+    num_matrix[int(pixel_12[0])][int(pixel_12[1])] = Cell(get_value_of_positions([WallPosition.WEST]))
+    num_matrix[int(pixel_13[0])][int(pixel_13[1])] = Cell(get_value_of_positions([WallPosition.WEST]))
+    num_matrix[int(pixel_14[0])][int(pixel_14[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
+    num_matrix[int(pixel_15[0])][int(pixel_15[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
+    num_matrix[int(pixel_16[0])][int(pixel_16[1])] = Cell(get_value_of_positions([WallPosition.NORTH]))
+    num_matrix[int(pixel_17[0])][int(pixel_17[1])] = Cell(get_value_of_positions([WallPosition.WEST]))
+    num_matrix[int(pixel_18[0])][int(pixel_18[1])] = Cell(get_value_of_positions([WallPosition.WEST]))
     visited.append(pixel_1)
     visited.append(pixel_2)
     visited.append(pixel_3)
@@ -96,52 +111,54 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Ce
     direcctions: list[tuple] = [up, down, right, left]
     current_cord: tuple[int, int] = start_point
     temp_cord: tuple[int, int]
-    print(f"initial visited len {len(visited)}") #TODO borrar
-    while len(visited) != (total_height_size * total_width_size):
-        random.shuffle(direcctions)
-        found_valid: bool = False
-        for random_direc in direcctions:
-            temp_cord = (current_cord[0] + random_direc[0], current_cord[1] + random_direc[1])
-            if temp_cord in visited:
-                continue
-            if not (0 <= temp_cord[0] < total_height_size and 0 <= temp_cord[1] < total_width_size):
-                continue
+    #print(f"initial visited len {len(visited)}") #TODO borrar
+    #while len(visited) != (total_height_size * total_width_size):
+    #    random.shuffle(direcctions)
+    #    found_valid: bool = False
+    #    for random_direc in direcctions:
+    #        temp_cord = (current_cord[0] + random_direc[0], current_cord[1] + random_direc[1])
+    #        if temp_cord in visited:
+    #            continue
+    #        if not (0 <= temp_cord[0] < total_height_size and 0 <= temp_cord[1] < total_width_size):
+    #            continue
             
-            current_cord = temp_cord
-            if random_direc == up:
-                visited.append(current_cord)
-                trash.append(current_cord)
-                num_matrix[current_cord[0]][current_cord[1]].value += 1      #vacio!
-                num_matrix[current_cord[0]+ 1][current_cord[1]].value += 2   #rompo pared de abajo y    juntanterior con este
-                found_valid = True
-            elif random_direc == down:
-                visited.append(current_cord)
-                trash.append(current_cord)
-                num_matrix[current_cord[0]][current_cord[1]].value += 2       #vacio
-                num_matrix[current_cord[0] - 1][current_cord[1]].value += 1    #rompo pared de arriba y junto anterior con este
-                found_valid = True
-            elif random_direc == right:
-                visited.append(current_cord)
-                trash.append(current_cord)
-                num_matrix[current_cord[0]][current_cord[1]].value += 4        #vacio
-                num_matrix[current_cord[0]][current_cord[1] - 1].value += 8    #rompo pared de izquierda y junto con lo anterior
-                found_valid = True
-            elif random_direc == left:
-                visited.append(current_cord)
-                trash.append(current_cord)
-                num_matrix[current_cord[0]][current_cord[1]].value += 8        #vacio 
-                num_matrix[current_cord[0]][current_cord[1]+ 1].value += 4     #rompo pared de derecha y junto con lo anterior
-                found_valid = True
-            break
-        if not found_valid:
-            current_cord = trash.pop()    
-    print(f"2 - {len(visited)}") #TODO borrar
+    #        current_cord = temp_cord
+    #        if random_direc == up:
+    #            visited.append(current_cord)
+    #            trash.append(current_cord)
+    #            num_matrix[current_cord[0]][current_cord[1]].value += 1      #vacio!
+    #            num_matrix[current_cord[0]+ 1][current_cord[1]].value += 2   #rompo pared de abajo y    juntanterior con este
+    #            found_valid = True
+    #        elif random_direc == down:
+    #            visited.append(current_cord)
+    #            trash.append(current_cord)
+    #            num_matrix[current_cord[0]][current_cord[1]].value += 4       #vacio
+    #            num_matrix[current_cord[0] - 1][current_cord[1]].value += 8    #rompo pared de arriba y junto anterior con este
+    #            found_valid = True
+    #        elif random_direc == right:
+    #            visited.append(current_cord)
+    #            trash.append(current_cord)
+    #            num_matrix[current_cord[0]][current_cord[1]].value += 2       #vacio
+    #            num_matrix[current_cord[0]][current_cord[1] - 1].value += 1   #rompo pared de izquierda y junto con lo anterior
+    #            found_valid = True
+    #        elif random_direc == left:
+    #            visited.append(current_cord)
+    #            trash.append(current_cord)
+    #            num_matrix[current_cord[0]][current_cord[1]].value += 8        #vacio 
+    #            num_matrix[current_cord[0]][current_cord[1]+ 1].value += 4     #rompo pared de derecha y junto con lo anterior
+    #            found_valid = True
+    #        break
+    #    if not found_valid:
+    #        current_cord = trash.pop()    
+    #print(f"2 - {len(visited)}") #TODO borrar
 
     
-    print_matrix(num_matrix, total_height_size, total_width_size)
-    #for a in num_matrix:
-    #    print(a)
     
+    print("\n Matriz de numeros")
+    for a in num_matrix:
+        print([cell.value for cell in a])
+    print("\n Matriz real con laberinto")
+    print_matrix(num_matrix, total_height_size, total_width_size)
     return num_matrix
 
 def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int], end_point: tuple[int, int]) -> list[tuple[int, int]]:

@@ -77,9 +77,7 @@ def create_matrix(heigth: int, width: int) -> list[str]:
             right_border_empty: bool = True if (
                 widht_it == total_width_size-1) else False
 
-            row.append(Cell(
-                right_border_empty,
-                left_border_empty, top_border_empty, bot_border_empty))
+            row.append(Cell())
         matrix.append(row)
 
     print_matrix(matrix, total_height_size, total_width_size)
