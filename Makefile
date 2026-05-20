@@ -40,9 +40,10 @@ lintS:
 run: install
 	echo "Executing program"
 	$(PYTHON) a_maze_ing.py ee
+
 debug:
 	echo "Debub WIP"
-
+	$(PYTHON) -m pdb a_maze_ing.py ee
 clean:
 	rm -rf __pycache__
 	rm -rf venv
