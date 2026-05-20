@@ -102,12 +102,12 @@ def print_matrix(
         total_width_size: int) -> None:
     top_line: str = (
         f"{corner_character}"
-        f"{total_width_size * floor_character * 3}"
+        f"{total_width_size * floor_character * CELL_SIZE_WIDHT}"
         f"{corner_character}"
     )
     bottom_line: str = (
         f"{corner_character}"
-        f"{total_width_size * floor_character * 3}"
+        f"{total_width_size * floor_character * CELL_SIZE_WIDHT}"
         f"{corner_character}"
     )
 

@@ -1,6 +1,6 @@
 import random
 from Cell import Cell
-
+from a_maze_ing import print_matrix
 
 def take_start_point(total_height_size: int, total_width_size: int, visited: list[tuple]) -> tuple[int, int]:
     while True:
@@ -36,24 +36,24 @@ def add_42(num_matrix: list[list[int]], visited: list[tuple], total_height_size:
     pixel_16: tuple[int, int] = (total_height_size / 2 + 2, total_width_size / 2 + 1)
     pixel_17: tuple[int, int] = (total_height_size / 2 + 2, total_width_size / 2 + 2)
     pixel_18: tuple[int, int] = (total_height_size / 2 + 2, total_width_size / 2 + 3) # hasta aqui el 2                 
-    num_matrix[int(pixel_1[0])][int(pixel_1[1])] = 1
-    num_matrix[int(pixel_2[0])][int(pixel_2[1])] = 3
-    num_matrix[int(pixel_3[0])][int(pixel_3[1])] = 4
-    num_matrix[int(pixel_4[0])][int(pixel_4[1])] = 12
-    num_matrix[int(pixel_5[0])][int(pixel_5[1])] = 9
-    num_matrix[int(pixel_6[0])][int(pixel_6[1])] = 3
-    num_matrix[int(pixel_7[0])][int(pixel_7[1])] = 2
-    num_matrix[int(pixel_8[0])][int(pixel_8[1])] = 4
-    num_matrix[int(pixel_9[0])][int(pixel_9[1])] = 12
-    num_matrix[int(pixel_10[0])][int(pixel_10[1])] = 9
-    num_matrix[int(pixel_11[0])][int(pixel_11[1])] = 3
-    num_matrix[int(pixel_12[0])][int(pixel_12[1])] = 10
-    num_matrix[int(pixel_13[0])][int(pixel_13[1])] = 12
-    num_matrix[int(pixel_14[0])][int(pixel_14[1])] = 5
-    num_matrix[int(pixel_15[0])][int(pixel_15[1])] = 3
-    num_matrix[int(pixel_16[0])][int(pixel_16[1])] = 6
-    num_matrix[int(pixel_17[0])][int(pixel_17[1])] = 12
-    num_matrix[int(pixel_18[0])][int(pixel_18[1])] = 8
+    num_matrix[int(pixel_1[0])][int(pixel_1[1])] = Cell(1)
+    num_matrix[int(pixel_2[0])][int(pixel_2[1])] = Cell(3)
+    num_matrix[int(pixel_3[0])][int(pixel_3[1])] = Cell(4)
+    num_matrix[int(pixel_4[0])][int(pixel_4[1])] = Cell(12)
+    num_matrix[int(pixel_5[0])][int(pixel_5[1])] = Cell(9)
+    num_matrix[int(pixel_6[0])][int(pixel_6[1])] = Cell(3)
+    num_matrix[int(pixel_7[0])][int(pixel_7[1])] = Cell(2)
+    num_matrix[int(pixel_8[0])][int(pixel_8[1])] = Cell(4)
+    num_matrix[int(pixel_9[0])][int(pixel_9[1])] = Cell(12)
+    num_matrix[int(pixel_10[0])][int(pixel_10[1])] = Cell(9)
+    num_matrix[int(pixel_11[0])][int(pixel_11[1])] = Cell(3)
+    num_matrix[int(pixel_12[0])][int(pixel_12[1])] = Cell(10)
+    num_matrix[int(pixel_13[0])][int(pixel_13[1])] = Cell(12)
+    num_matrix[int(pixel_14[0])][int(pixel_14[1])] = Cell(5)
+    num_matrix[int(pixel_15[0])][int(pixel_15[1])] = Cell(3)
+    num_matrix[int(pixel_16[0])][int(pixel_16[1])] = Cell(6)
+    num_matrix[int(pixel_17[0])][int(pixel_17[1])] = Cell(12)
+    num_matrix[int(pixel_18[0])][int(pixel_18[1])] = Cell(8)
     visited.append(pixel_1)
     visited.append(pixel_2)
     visited.append(pixel_3)
@@ -77,25 +77,25 @@ def add_42(num_matrix: list[list[int]], visited: list[tuple], total_height_size:
 
 def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Cell]]:  # añadir matrix: list[list[Cell]],
     num_matrix: list[list[Cell]] = []
-    for heigth_it in range(0, total_height_size):
+    for _ in range(0, total_height_size):
         row: list[Cell] = []
-        for widht_it in range(0, total_width_size):
+        for _ in range(0, total_width_size):
             row.append(Cell())
         num_matrix.append(row)
     visited: list[tuple] = []
-    random.seed(1)
+    random.seed(1) # Cambiar
     num_matrix = add_42(num_matrix, visited, total_height_size, total_width_size)
     start_point: tuple[int, int] = take_start_point(total_height_size, total_width_size, visited)
     visited.append(start_point)
-    num_matrix[start_point[0]][start_point[1]] = 20
+    #num_matrix[start_point[0]][start_point[1]] = 20
     trash: list[tuple] = [start_point]
     up: tuple[int, int] =  (-1, 0)      # + 2
     down: tuple[int, int] = (1, 0)      # + 1
     right: tuple[int, int] = (0, 1)     # + 4
     left: tuple[int, int] = (0, -1)     # + 8
     direcctions: list[tuple] = [up, down, right, left]
-    current_cord: tuple = start_point
-    temp_cord: tuple
+    current_cord: tuple[int, int] = start_point
+    temp_cord: tuple[int, int]
     print(f"initial visited len {len(visited)}") #TODO borrar
     while len(visited) != (total_height_size * total_width_size):
         random.shuffle(direcctions)
@@ -111,7 +111,6 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Ce
             if random_direc == up:
                 visited.append(current_cord)
                 trash.append(current_cord)
-                num_matrix[current_cord[0]][current_cord[1]]
                 num_matrix[current_cord[0]][current_cord[1]].value += 1      #vacio!
                 num_matrix[current_cord[0]+ 1][current_cord[1]].value += 2   #rompo pared de abajo y    juntanterior con este
                 found_valid = True
@@ -139,9 +138,9 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Ce
     print(f"2 - {len(visited)}") #TODO borrar
 
     
-    
-    for a in num_matrix:
-            print(a)
+    print_matrix(num_matrix, total_height_size, total_width_size)
+    #for a in num_matrix:
+    #    print(a)
     
     return num_matrix
 
@@ -201,7 +200,7 @@ def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int], end_
         
     return []
 
-make_the_maze(15, 15)
+make_the_maze(16, 16)
 
 
 
