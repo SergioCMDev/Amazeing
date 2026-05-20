@@ -26,7 +26,7 @@ def data_for_key_valid(line_parts: list[str]) -> bool:
         case "WIDTH" | "HEIGHT":
             try:
                 size: int = int(line_parts[1])
-                if (size < constants.MIN_SIZE or size > constants.MAX_SIZE):
+                if (size < constants.MIN_SIZE_WIDTH or size > constants.MAX_SIZE):
                     return False
                 return True
             except ValueError:
