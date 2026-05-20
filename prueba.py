@@ -82,6 +82,7 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[in
             row.append(0)
         num_matrix.append(row)
     visited: list[tuple] = []
+    random.seed(1)
     num_matrix = add_42(num_matrix, visited, total_height_size, total_width_size)
     start_point: tuple[int, int] = take_start_point(total_height_size, total_width_size, visited)
     visited.append(start_point)
@@ -94,47 +95,47 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[in
     direcctions: list[tuple] = [up, down, right, left]
     current_cord: tuple = start_point
     temp_cord: tuple
-    flag: bool = True
+    print(f"initial visited len {len(visited)}") #TODO borrar
     while len(visited) != (total_height_size * total_width_size):
         random.shuffle(direcctions)
         found_valid: bool = False
         for random_direc in direcctions:
             temp_cord = (current_cord[0] + random_direc[0], current_cord[1] + random_direc[1])
-            flag = True
             if temp_cord in visited:
-                flag = False
+                continue
             if not (0 <= temp_cord[0] < total_height_size and 0 <= temp_cord[1] < total_width_size):
-                flag = False
-            if flag:
-                current_cord = temp_cord
-                if random_direc == up:
-                    visited.append(current_cord)
-                    trash.append(current_cord)
-                    num_matrix[current_cord[0]][current_cord[1]] += 1      #vacio!
-                    num_matrix[current_cord[0]+ 1][current_cord[1]] += 2   #rompo pared de abajo y    juntanterior con este
-                    found_valid = True
-                elif random_direc == down:
-                    visited.append(current_cord)
-                    trash.append(current_cord)
-                    num_matrix[current_cord[0]][current_cord[1]] += 2       #vacio
-                    num_matrix[current_cord[0] - 1][current_cord[1]] += 1    #rompo pared de arriba y junto anterior con este
-                    found_valid = True
-                elif random_direc == right:
-                    visited.append(current_cord)
-                    trash.append(current_cord)
-                    num_matrix[current_cord[0]][current_cord[1]] += 4        #vacio
-                    num_matrix[current_cord[0]][current_cord[1] - 1] += 8    #rompo pared de izquierda y junto con lo anterior
-                    found_valid = True
-                elif random_direc == left:
-                    visited.append(current_cord)
-                    trash.append(current_cord)
-                    num_matrix[current_cord[0]][current_cord[1]] += 8        #vacio 
-                    num_matrix[current_cord[0]][current_cord[1]+ 1] += 4     #rompo pared de derecha y junto con lo anterior
-                    found_valid = True
-                break
+                continue
+            
+            current_cord = temp_cord
+            if random_direc == up:
+                visited.append(current_cord)
+                trash.append(current_cord)
+                num_matrix[current_cord[0]][current_cord[1]] += 1      #vacio!
+                num_matrix[current_cord[0]+ 1][current_cord[1]] += 2   #rompo pared de abajo y    juntanterior con este
+                found_valid = True
+            elif random_direc == down:
+                visited.append(current_cord)
+                trash.append(current_cord)
+                num_matrix[current_cord[0]][current_cord[1]] += 2       #vacio
+                num_matrix[current_cord[0] - 1][current_cord[1]] += 1    #rompo pared de arriba y junto anterior con este
+                found_valid = True
+            elif random_direc == right:
+                visited.append(current_cord)
+                trash.append(current_cord)
+                num_matrix[current_cord[0]][current_cord[1]] += 4        #vacio
+                num_matrix[current_cord[0]][current_cord[1] - 1] += 8    #rompo pared de izquierda y junto con lo anterior
+                found_valid = True
+            elif random_direc == left:
+                visited.append(current_cord)
+                trash.append(current_cord)
+                num_matrix[current_cord[0]][current_cord[1]] += 8        #vacio 
+                num_matrix[current_cord[0]][current_cord[1]+ 1] += 4     #rompo pared de derecha y junto con lo anterior
+                found_valid = True
+            break
         if not found_valid:
             current_cord = trash.pop()    
-    
+    print(f"2 - {len(visited)}") #TODO borrar
+
     
     
     for a in num_matrix:
@@ -181,14 +182,15 @@ def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int], end_
                                     current_cord[0]][current_cord[1]] == 15 and num_matrix[current_cord[0]][current_cord[1] + 1] not in the_way:
             current_cord = (current_cord[0], current_cord[1] + 1) 
             the_way.append(current_cord)
-        elif num_matrix[current_cord[0]][current_cord[1]] == 8 or num_matrix[
-            current_cord[0]][current_cord[1]] == 9 or num_matrix[
-                current_cord[0]][current_cord[1]] == 10 or num_matrix[
-                    current_cord[0]][current_cord[1]] == 11 or num_matrix[
-                        current_cord[0]][current_cord[1]] == 12 or num_matrix[
-                            current_cord[0]][current_cord[1]] == 13 or num_matrix[
-                                current_cord[0]][current_cord[1]] == 14 or num_matrix[
-                                    current_cord[0]][current_cord[1]] == 15 and num_matrix[current_cord[0]][current_cord[1] -1] not in the_way:
+        elif (num_matrix[current_cord[0]][current_cord[1]] == 8
+                or num_matrix[current_cord[0]][current_cord[1]] == 9
+                or num_matrix[current_cord[0]][current_cord[1]] == 10
+                or num_matrix[current_cord[0]][current_cord[1]] == 11
+                or num_matrix[current_cord[0]][current_cord[1]] == 12
+                or num_matrix[current_cord[0]][current_cord[1]] == 13
+                or num_matrix[current_cord[0]][current_cord[1]] == 14
+                or num_matrix[current_cord[0]][current_cord[1]] == 15
+                and num_matrix[current_cord[0]][current_cord[1] -1] not in the_way):
             current_cord = (current_cord[0], current_cord[1] - 1)
             the_way.append(current_cord)
         else:
@@ -202,36 +204,36 @@ make_the_maze(15, 15)
 
 
 
-coas del chatgpt para revisardef find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int], end_point: tuple[int, int]) -> list[tuple[int, int]]:
-    def can_go(direction: int, current_value: int) -> bool:
-        """Verifica si puedes ir en esa dirección según el valor de la celda"""
-        # up=1, down=2, right=4, left=8
-        return (current_value & direction) != 0
+#coas del chatgpt para revisardef find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int], end_point: tuple[int, int]) -> list[tuple[int, int]]:
+    #def can_go(direction: int, current_value: int) -> bool:
+    #    """Verifica si puedes ir en esa dirección según el valor de la celda"""
+    #    # up=1, down=2, right=4, left=8
+    #    return (current_value & direction) != 0
     
-    def dfs(current: tuple[int, int], path: list[tuple[int, int]], visited: set) -> list[tuple[int, int]]:
-        if current == end_point:
-            return path
+    #def dfs(current: tuple[int, int], path: list[tuple[int, int]], visited: set) -> list[tuple[int, int]]:
+    #    if current == end_point:
+    #        return path
         
-        current_value = num_matrix[current[0]][current[1]]
-        directions = [(-1, 0, 1), (1, 0, 2), (0, 1, 4), (0, -1, 8)]  # (dy, dx, bit)
+    #    current_value = num_matrix[current[0]][current[1]]
+    #    directions = [(-1, 0, 1), (1, 0, 2), (0, 1, 4), (0, -1, 8)]  # (dy, dx, bit)
         
-        for dy, dx, bit in directions:
-            next_pos = (current[0] + dy, current[1] + dx)
+    #    for dy, dx, bit in directions:
+    #        next_pos = (current[0] + dy, current[1] + dx)
             
-            # Verifica si es válido, no está visitado y puedes ir en esa dirección
-            if (0 <= next_pos[0] < len(num_matrix) and 
-                0 <= next_pos[1] < len(num_matrix[0]) and
-                next_pos not in visited and
-                can_go(bit, current_value)):
+    #        # Verifica si es válido, no está visitado y puedes ir en esa dirección
+    #        if (0 <= next_pos[0] < len(num_matrix) and 
+    #            0 <= next_pos[1] < len(num_matrix[0]) and
+    #            next_pos not in visited and
+    #            can_go(bit, current_value)):
                 
-                visited.add(next_pos)
-                result = dfs(next_pos, path + [next_pos], visited)
-                if result:
-                    return result
-                visited.remove(next_pos)  # Backtracking: deshace la visita
+    #            visited.add(next_pos)
+    #            result = dfs(next_pos, path + [next_pos], visited)
+    #            if result:
+    #                return result
+    #            visited.remove(next_pos)  # Backtracking: deshace la visita
         
-        return None
+    #    return None
     
-    visited = {start_point}
-    path = dfs(start_point, [start_point], visited)
-    return path if path else []
+    #visited = {start_point}
+    #path = dfs(start_point, [start_point], visited)
+    #return path if path else []
