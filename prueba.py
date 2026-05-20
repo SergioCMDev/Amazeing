@@ -1,4 +1,5 @@
 import random
+from Cell import Cell
 
 
 def take_start_point(total_height_size: int, total_width_size: int, visited: list[tuple]) -> tuple[int, int]:
@@ -74,12 +75,12 @@ def add_42(num_matrix: list[list[int]], visited: list[tuple], total_height_size:
     return num_matrix
 
 
-def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[int]]:  # añadir matrix: list[list[Cell]],
-    num_matrix: list[list[int]] = []
+def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Cell]]:  # añadir matrix: list[list[Cell]],
+    num_matrix: list[list[Cell]] = []
     for heigth_it in range(0, total_height_size):
-        row: list[int] = []
+        row: list[Cell] = []
         for widht_it in range(0, total_width_size):
-            row.append(0)
+            row.append(Cell())
         num_matrix.append(row)
     visited: list[tuple] = []
     random.seed(1)
@@ -110,26 +111,27 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[in
             if random_direc == up:
                 visited.append(current_cord)
                 trash.append(current_cord)
-                num_matrix[current_cord[0]][current_cord[1]] += 1      #vacio!
-                num_matrix[current_cord[0]+ 1][current_cord[1]] += 2   #rompo pared de abajo y    juntanterior con este
+                num_matrix[current_cord[0]][current_cord[1]]
+                num_matrix[current_cord[0]][current_cord[1]].value += 1      #vacio!
+                num_matrix[current_cord[0]+ 1][current_cord[1]].value += 2   #rompo pared de abajo y    juntanterior con este
                 found_valid = True
             elif random_direc == down:
                 visited.append(current_cord)
                 trash.append(current_cord)
-                num_matrix[current_cord[0]][current_cord[1]] += 2       #vacio
-                num_matrix[current_cord[0] - 1][current_cord[1]] += 1    #rompo pared de arriba y junto anterior con este
+                num_matrix[current_cord[0]][current_cord[1]].value += 2       #vacio
+                num_matrix[current_cord[0] - 1][current_cord[1]].value += 1    #rompo pared de arriba y junto anterior con este
                 found_valid = True
             elif random_direc == right:
                 visited.append(current_cord)
                 trash.append(current_cord)
-                num_matrix[current_cord[0]][current_cord[1]] += 4        #vacio
-                num_matrix[current_cord[0]][current_cord[1] - 1] += 8    #rompo pared de izquierda y junto con lo anterior
+                num_matrix[current_cord[0]][current_cord[1]].value += 4        #vacio
+                num_matrix[current_cord[0]][current_cord[1] - 1].value += 8    #rompo pared de izquierda y junto con lo anterior
                 found_valid = True
             elif random_direc == left:
                 visited.append(current_cord)
                 trash.append(current_cord)
-                num_matrix[current_cord[0]][current_cord[1]] += 8        #vacio 
-                num_matrix[current_cord[0]][current_cord[1]+ 1] += 4     #rompo pared de derecha y junto con lo anterior
+                num_matrix[current_cord[0]][current_cord[1]].value += 8        #vacio 
+                num_matrix[current_cord[0]][current_cord[1]+ 1].value += 4     #rompo pared de derecha y junto con lo anterior
                 found_valid = True
             break
         if not found_valid:
@@ -139,7 +141,7 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[in
     
     
     for a in num_matrix:
-        print(a)
+            print(a)
     
     return num_matrix
 
