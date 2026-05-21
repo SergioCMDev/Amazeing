@@ -169,97 +169,127 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Ce
     print_matrix(num_matrix, total_height_size, total_width_size)
     return num_matrix
 
-def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int], end_point: tuple[int, int]) -> list[tuple[int, int]]:
-    the_way: list[tuple[int, int]] = []
-    the_way.append(start_point)
-    while the_way[-1] != end_point:
-        current_cord: tuple[int, int] = start_point
-        if start_point == end_point:
-            return the_way
-        if num_matrix[current_cord[0]][current_cord[1]] == 0:
-            return []
-        if num_matrix[current_cord[0]][current_cord[1]] == 1 or num_matrix[
-            current_cord[0]][current_cord[1]] == 3 or num_matrix[
-                current_cord[0]][current_cord[1]] == 5 or num_matrix[
-                    current_cord[0]][current_cord[1]] == 7 or num_matrix[
-                        current_cord[0]][current_cord[1]] == 9 or num_matrix[
-                            current_cord[0]][current_cord[1]] == 11 or num_matrix[
-                                current_cord[0]][current_cord[1]] == 13 or num_matrix[
-                                    current_cord[0]][current_cord[1]] == 15 and num_matrix[current_cord[0] - 1][current_cord[1]] not in the_way:
-            current_cord = (current_cord[0] - 1, current_cord[1])
-            the_way.append(current_cord)
-        elif num_matrix[current_cord[0]][current_cord[1]] == 2 or num_matrix[
-            current_cord[0]][current_cord[1]] == 3 or num_matrix[
-                current_cord[0]][current_cord[1]] == 6 or num_matrix[
-                    current_cord[0]][current_cord[1]] == 7 or num_matrix[
-                        current_cord[0]][current_cord[1]] == 10 or num_matrix[
-                            current_cord[0]][current_cord[1]] == 11 or num_matrix[
-                                current_cord[0]][current_cord[1]] == 14 or num_matrix[
-                                    current_cord[0]][current_cord[1]] == 15 and num_matrix[current_cord[0] + 1][current_cord[1]] not in the_way:
-            current_cord = (current_cord[0] + 1, current_cord[1])
-            the_way.append(current_cord)
-        elif num_matrix[current_cord[0]][current_cord[1]] == 4 or num_matrix[
-            current_cord[0]][current_cord[1]] == 5 or num_matrix[
-                current_cord[0]][current_cord[1]] == 6 or num_matrix[
-                    current_cord[0]][current_cord[1]] == 7 or num_matrix[
-                        current_cord[0]][current_cord[1]] == 12 or num_matrix[
-                            current_cord[0]][current_cord[1]] == 13 or num_matrix[
-                                current_cord[0]][current_cord[1]] == 14 or num_matrix[
-                                    current_cord[0]][current_cord[1]] == 15 and num_matrix[current_cord[0]][current_cord[1] + 1] not in the_way:
-            current_cord = (current_cord[0], current_cord[1] + 1) 
-            the_way.append(current_cord)
-        elif (num_matrix[current_cord[0]][current_cord[1]] == 8
-                or num_matrix[current_cord[0]][current_cord[1]] == 9
-                or num_matrix[current_cord[0]][current_cord[1]] == 10
-                or num_matrix[current_cord[0]][current_cord[1]] == 11
-                or num_matrix[current_cord[0]][current_cord[1]] == 12
-                or num_matrix[current_cord[0]][current_cord[1]] == 13
-                or num_matrix[current_cord[0]][current_cord[1]] == 14
-                or num_matrix[current_cord[0]][current_cord[1]] == 15
-                and num_matrix[current_cord[0]][current_cord[1] -1] not in the_way):
-            current_cord = (current_cord[0], current_cord[1] - 1)
-            the_way.append(current_cord)
-        else:
-            the_way.pop()
-            
-        
-    return []
 
 make_the_maze(16, 16)
 
-
-
-
-#coas del chatgpt para revisardef find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int], end_point: tuple[int, int]) -> list[tuple[int, int]]:
-    #def can_go(direction: int, current_value: int) -> bool:
-    #    """Verifica si puedes ir en esa dirección según el valor de la celda"""
-    #    # up=1, down=2, right=4, left=8
-    #    return (current_value & direction) != 0
+def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int],
+                 end_point: tuple[int, int]) -> list[tuple[int, int]]:
+    the_way: list[tuple[int, int]] = [start_point]
+    visited: list[tuple] = []
+    backup: list = [(start_point, the_way, [])]
+    directions: list[tuple[int,int,int]] = [(-1, 0, 1, 'N'),
+                                            (1, 0, 4, 'S'),
+                                            (0, 1, 2, 'E'),
+                                            (0, -1, 8, 'W')]
+    while len(backup) != 0:
+        actual = backup.pop(0)
+        if actual[0] == end_point:
+            return actual[1]
+        if actual[0] in visited:
+            continue
+        visited.append(actual[0])
+        for py, px, bit, movement in directions:
+            next_pos = (actual[0][0] + py, actual[0][1] + px)
+            if (0 <= next_pos[0] < len(num_matrix) and 0 <= next_pos[1] < len(num_matrix[0]) 
+                and next_pos not in visited
+                and (num_matrix[actual[0][0]][actual[0][1]].value & bit) != 0):
+                new_way: list = actual[1] + [next_pos]
+                new_mov = actual[2] + [movement]
+                backup.append((next_pos, new_way, new_mov))
+    return []
     
-    #def dfs(current: tuple[int, int], path: list[tuple[int, int]], visited: set) -> list[tuple[int, int]]:
-    #    if current == end_point:
-    #        return path
-        
-    #    current_value = num_matrix[current[0]][current[1]]
-    #    directions = [(-1, 0, 1), (1, 0, 2), (0, 1, 4), (0, -1, 8)]  # (dy, dx, bit)
-        
-    #    for dy, dx, bit in directions:
-    #        next_pos = (current[0] + dy, current[1] + dx)
+    
+
+
+# def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int], end_point: tuple[int, int]) -> list[tuple[int, int]]:
+#     the_way: list[tuple[int, int]] = []
+#     the_way.append(start_point)
+#     while the_way[-1] != end_point:
+#         current_cord: tuple[int, int] = start_point
+#         if start_point == end_point:
+#             return the_way
+#         if num_matrix[current_cord[0]][current_cord[1]] == 0:
+#             return []
+#         if (num_matrix[current_cord[0]][current_cord[1]] == 1 
+#             or num_matrix[current_cord[0]][current_cord[1]] == 3 
+#             or num_matrix[current_cord[0]][current_cord[1]] == 5 
+#             or num_matrix[current_cord[0]][current_cord[1]] == 7 
+#             or num_matrix[current_cord[0]][current_cord[1]] == 9 
+#             or num_matrix[current_cord[0]][current_cord[1]] == 11 
+#             or num_matrix[current_cord[0]][current_cord[1]] == 13 
+#             or num_matrix[current_cord[0]][current_cord[1]] == 15 
+#             and num_matrix[current_cord[0] - 1][current_cord[1]] not in the_way):
+#             current_cord = (current_cord[0] - 1, current_cord[1])
+#             the_way.append(current_cord)
+#         elif (num_matrix[current_cord[0]][current_cord[1]] == 2 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 3 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 6 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 7 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 10 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 11 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 14 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 15 
+#               and num_matrix[current_cord[0] + 1][current_cord[1]] not in the_way):
+#             current_cord = (current_cord[0] + 1, current_cord[1])
+#             the_way.append(current_cord)
+#         elif (num_matrix[current_cord[0]][current_cord[1]] == 4 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 5 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 6 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 7 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 12 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 13 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 14 
+#               or num_matrix[current_cord[0]][current_cord[1]] == 15 
+#               and num_matrix[current_cord[0]][current_cord[1] + 1] not in the_way):
+#             current_cord = (current_cord[0], current_cord[1] + 1) 
+#             the_way.append(current_cord)
+#         elif (num_matrix[current_cord[0]][current_cord[1]] == 8
+#                 or num_matrix[current_cord[0]][current_cord[1]] == 9
+#                 or num_matrix[current_cord[0]][current_cord[1]] == 10
+#                 or num_matrix[current_cord[0]][current_cord[1]] == 11
+#                 or num_matrix[current_cord[0]][current_cord[1]] == 12
+#                 or num_matrix[current_cord[0]][current_cord[1]] == 13
+#                 or num_matrix[current_cord[0]][current_cord[1]] == 14
+#                 or num_matrix[current_cord[0]][current_cord[1]] == 15
+#                 and num_matrix[current_cord[0]][current_cord[1] -1] not in the_way):
+#             current_cord = (current_cord[0], current_cord[1] - 1)
+#             the_way.append(current_cord)
+#         else:
+#             the_way.pop()
             
-    #        # Verifica si es válido, no está visitado y puedes ir en esa dirección
-    #        if (0 <= next_pos[0] < len(num_matrix) and 
-    #            0 <= next_pos[1] < len(num_matrix[0]) and
-    #            next_pos not in visited and
-    #            can_go(bit, current_value)):
-                
-    #            visited.add(next_pos)
-    #            result = dfs(next_pos, path + [next_pos], visited)
-    #            if result:
-    #                return result
-    #            visited.remove(next_pos)  # Backtracking: deshace la visita
         
-    #    return None
-    
-    #visited = {start_point}
-    #path = dfs(start_point, [start_point], visited)
-    #return path if path else []
+#     return []
+
+
+# def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int], end_point: tuple[int, int]) -> list[tuple[int, int]]:    #coas del chatgpt para revisar
+    # def can_go(direction: int, current_value: int) -> bool:
+    #    """Verifica si puedes ir en esa dirección según el valor de la celda"""
+    #    # up=1, down=4, right=2, left=8
+    #    return (current_value & direction) != 0
+
+    # def dfs(current: tuple[int, int], path: list[tuple[int, int]], visited: set) -> list[tuple[int, int]]:
+    #     if current == end_point:
+    #        return path
+    #     current_value = num_matrix[current[0]][current[1]]
+    #     directions = [(-1, 0, 1), (1, 0, 4), (0, 1, 2), (0, -1, 8)]  # (dy, dx, bit)
+
+    #     for dy, dx, bit in directions:
+    #         next_pos = (current[0] + dy, current[1] + dx)
+
+    #         # Verifica si es válido, no está visitado y puedes ir en esa dirección
+    #         if (0 <= next_pos[0] < len(num_matrix) and 
+    #             0 <= next_pos[1] < len(num_matrix[0]) and
+    #             next_pos not in visited and
+    #             can_go(bit, current_value)):
+
+    #             visited.add(next_pos)
+    #             result = dfs(next_pos, path + [next_pos], visited)
+    #             if result:
+    #                 return result
+    #             visited.remove(next_pos)  # Backtracking: deshace la visita
+    #     return None
+
+    # visited = {start_point}
+    # path = dfs(start_point, [start_point], visited)
+    # return path if path else []
+
