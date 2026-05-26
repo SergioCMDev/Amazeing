@@ -1,6 +1,6 @@
 import random
 from Cell import Cell
-from a_maze_ing import print_matrix
+# from a_maze_ing import print_matrix
 from constants import WallPosition
 
 def take_start_point(total_height_size: int, total_width_size: int, visited: list[tuple]) -> tuple[int, int]:
@@ -21,13 +21,13 @@ def get_value_of_positions(positions : list[WallPosition]) -> int:
     value: int = 0
     for pos in positions:
         if (pos == WallPosition.NORTH):
-            value += 1
+            value -= 1
         if (pos == WallPosition.EAST):
-            value += 2
+            value -= 2
         if (pos == WallPosition.SOUTH):
-            value += 4
+            value -= 4
         if (pos == WallPosition.WEST):
-            value += 8
+            value -= 8
     return value
 
 
@@ -95,7 +95,7 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Ce
     for _ in range(0, total_height_size):
         row: list[Cell] = []
         for width in range(0, total_width_size):
-            value: int = 0
+            value: int = 15
             if(width == 0):
                 value = get_value_of_positions(WallPosition.EAST)
             row.append(Cell(value))
@@ -113,8 +113,8 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Ce
     directions: list[tuple] = [up, down, right, left]
     current_cord: tuple[int, int] = start_point
     temp_cord: tuple[int, int]
-    print(f"initial visited len {len(visited)}") #TODO borrar
-    print_matrix(num_matrix, total_height_size, total_width_size)
+    # print(f"initial visited len {len(visited)}") #TODO borrar
+    # print_matrix(num_matrix, total_height_size, total_width_size)
 
     while len(visited) != (total_height_size * total_width_size):
         random.shuffle(directions)
@@ -130,23 +130,23 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Ce
                 continue
             #print(f"CURRENT {current_cord}")
             if random_direc == up:
-                num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.NORTH])
+                num_matrix[current_cord[0]][current_cord[1]].value -= get_value_of_positions([WallPosition.NORTH])
                 if (current_cord[0] - 1 >= 0):
-                    num_matrix[current_cord[0] - 1][current_cord[1]].value += get_value_of_positions([WallPosition.SOUTH])   #rompo pared de abajo y    juntanterior con este
+                    num_matrix[current_cord[0] - 1][current_cord[1]].value -= get_value_of_positions([WallPosition.SOUTH])   #rompo pared de abajo y    juntanterior con este
                 found_valid = True
             elif random_direc == down:
-                num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.SOUTH])         
+                num_matrix[current_cord[0]][current_cord[1]].value -= get_value_of_positions([WallPosition.SOUTH])         
                 if (current_cord[0] + 1 < total_height_size):
-                    num_matrix[current_cord[0] + 1][current_cord[1]].value += get_value_of_positions([WallPosition.NORTH])      #rompo pared de arriba y junto anterior con este
+                    num_matrix[current_cord[0] + 1][current_cord[1]].value -= get_value_of_positions([WallPosition.NORTH])      #rompo pared de arriba y junto anterior con este
                 found_valid = True
             elif random_direc == right:
-                num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.EAST])       
+                num_matrix[current_cord[0]][current_cord[1]].value -= get_value_of_positions([WallPosition.EAST])       
                 if (current_cord[1] + 1 < total_width_size):
-                    num_matrix[current_cord[0]][current_cord[1] + 1].value += get_value_of_positions([WallPosition.WEST])   #rompo pared de izquierda y junto con lo anterior
+                    num_matrix[current_cord[0]][current_cord[1] + 1].value -= get_value_of_positions([WallPosition.WEST])   #rompo pared de izquierda y junto con lo anterior
                 found_valid = True
             elif random_direc == left:
-                num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.WEST])
-                num_matrix[current_cord[0]][current_cord[1]- 1].value += get_value_of_positions([WallPosition.EAST])
+                num_matrix[current_cord[0]][current_cord[1]].value -= get_value_of_positions([WallPosition.WEST])
+                num_matrix[current_cord[0]][current_cord[1]- 1].value -= get_value_of_positions([WallPosition.EAST])
                 found_valid = True
             stack.append(current_cord)
             current_cord = temp_cord
@@ -154,26 +154,26 @@ def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Ce
         if not found_valid:
             if len(stack) > 0:
                 current_cord = stack.pop() 
-                #print(f"POP {current_cord}")
-            else:
-                #print("STOP")
                 break  
-    #print(f"2 - {len(visited)}") #TODO borrar
+
 
     
     
-    print("\n Matriz de numeros")
-    for a in num_matrix:
-        print([cell.value for cell in a])
-    print("\n Matriz real con laberinto")
-    print_matrix(num_matrix, total_height_size, total_width_size)
-    return num_matrix
+    # print("\n Matriz de numeros")
+    # for a in num_matrix:
+    #     print([cell.value for cell in a])
+    # print("\n Matriz real con laberinto")
+    # print_matrix(num_matrix, total_height_size, total_width_size)
+    ENTRY: tuple = [1, 4] #borrar
+    EXIT: tuple = [2, 5]# borrar
+    solution: list = find_the_way(num_matrix, ENTRY, EXIT) #coger entry y exit pero no se todavia como ni donde
+    return num_matrix, solution
 
 
-make_the_maze(16, 16)
+# make_the_maze(16, 16)
 
-def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int],
-                 end_point: tuple[int, int]) -> list[tuple[int, int]]:
+def find_the_way(num_matrix: list[list[Cell]], start_point: tuple[int, int],
+                 end_point: tuple[int, int]) -> list[tuple[int, int],]:
     the_way: list[tuple[int, int]] = [start_point]
     visited: list[tuple] = []
     backup: list = [(start_point, the_way, [])]
@@ -184,7 +184,10 @@ def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int],
     while len(backup) != 0:
         actual = backup.pop(0)
         if actual[0] == end_point:
+            for coord in actual[1]:
+                num_matrix[coord[0]][coord[1]].solution_path = True
             return actual[1]
+
         if actual[0] in visited:
             continue
         visited.append(actual[0])
@@ -200,96 +203,4 @@ def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int],
     
     
 
-
-# def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int], end_point: tuple[int, int]) -> list[tuple[int, int]]:
-#     the_way: list[tuple[int, int]] = []
-#     the_way.append(start_point)
-#     while the_way[-1] != end_point:
-#         current_cord: tuple[int, int] = start_point
-#         if start_point == end_point:
-#             return the_way
-#         if num_matrix[current_cord[0]][current_cord[1]] == 0:
-#             return []
-#         if (num_matrix[current_cord[0]][current_cord[1]] == 1 
-#             or num_matrix[current_cord[0]][current_cord[1]] == 3 
-#             or num_matrix[current_cord[0]][current_cord[1]] == 5 
-#             or num_matrix[current_cord[0]][current_cord[1]] == 7 
-#             or num_matrix[current_cord[0]][current_cord[1]] == 9 
-#             or num_matrix[current_cord[0]][current_cord[1]] == 11 
-#             or num_matrix[current_cord[0]][current_cord[1]] == 13 
-#             or num_matrix[current_cord[0]][current_cord[1]] == 15 
-#             and num_matrix[current_cord[0] - 1][current_cord[1]] not in the_way):
-#             current_cord = (current_cord[0] - 1, current_cord[1])
-#             the_way.append(current_cord)
-#         elif (num_matrix[current_cord[0]][current_cord[1]] == 2 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 3 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 6 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 7 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 10 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 11 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 14 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 15 
-#               and num_matrix[current_cord[0] + 1][current_cord[1]] not in the_way):
-#             current_cord = (current_cord[0] + 1, current_cord[1])
-#             the_way.append(current_cord)
-#         elif (num_matrix[current_cord[0]][current_cord[1]] == 4 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 5 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 6 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 7 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 12 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 13 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 14 
-#               or num_matrix[current_cord[0]][current_cord[1]] == 15 
-#               and num_matrix[current_cord[0]][current_cord[1] + 1] not in the_way):
-#             current_cord = (current_cord[0], current_cord[1] + 1) 
-#             the_way.append(current_cord)
-#         elif (num_matrix[current_cord[0]][current_cord[1]] == 8
-#                 or num_matrix[current_cord[0]][current_cord[1]] == 9
-#                 or num_matrix[current_cord[0]][current_cord[1]] == 10
-#                 or num_matrix[current_cord[0]][current_cord[1]] == 11
-#                 or num_matrix[current_cord[0]][current_cord[1]] == 12
-#                 or num_matrix[current_cord[0]][current_cord[1]] == 13
-#                 or num_matrix[current_cord[0]][current_cord[1]] == 14
-#                 or num_matrix[current_cord[0]][current_cord[1]] == 15
-#                 and num_matrix[current_cord[0]][current_cord[1] -1] not in the_way):
-#             current_cord = (current_cord[0], current_cord[1] - 1)
-#             the_way.append(current_cord)
-#         else:
-#             the_way.pop()
-            
-        
-#     return []
-
-
-# def find_the_way(num_matrix: list[list[int]], start_point: tuple[int, int], end_point: tuple[int, int]) -> list[tuple[int, int]]:    #coas del chatgpt para revisar
-    # def can_go(direction: int, current_value: int) -> bool:
-    #    """Verifica si puedes ir en esa dirección según el valor de la celda"""
-    #    # up=1, down=4, right=2, left=8
-    #    return (current_value & direction) != 0
-
-    # def dfs(current: tuple[int, int], path: list[tuple[int, int]], visited: set) -> list[tuple[int, int]]:
-    #     if current == end_point:
-    #        return path
-    #     current_value = num_matrix[current[0]][current[1]]
-    #     directions = [(-1, 0, 1), (1, 0, 4), (0, 1, 2), (0, -1, 8)]  # (dy, dx, bit)
-
-    #     for dy, dx, bit in directions:
-    #         next_pos = (current[0] + dy, current[1] + dx)
-
-    #         # Verifica si es válido, no está visitado y puedes ir en esa dirección
-    #         if (0 <= next_pos[0] < len(num_matrix) and 
-    #             0 <= next_pos[1] < len(num_matrix[0]) and
-    #             next_pos not in visited and
-    #             can_go(bit, current_value)):
-
-    #             visited.add(next_pos)
-    #             result = dfs(next_pos, path + [next_pos], visited)
-    #             if result:
-    #                 return result
-    #             visited.remove(next_pos)  # Backtracking: deshace la visita
-    #     return None
-
-    # visited = {start_point}
-    # path = dfs(start_point, [start_point], visited)
-    # return path if path else []
 

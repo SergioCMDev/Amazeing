@@ -3,6 +3,7 @@ from parser import parse_file
 from dictionary import Dictionary
 from Cell import Cell
 from constants import CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
+from laberithm_maker import make_the_maze, find_the_way
 
 
 def main() -> None:
@@ -78,9 +79,10 @@ def create_matrix(heigth: int, width: int) -> list[str]:
                 widht_it == total_width_size-1) else False
 
             row.append(Cell())
-        matrix.append(row)
-
-    print_matrix(matrix, total_height_size, total_width_size)
+        matrix.append(row) 
+    solution: list = []
+    matrix2, solution = make_the_maze(total_height_size, total_height_size)
+    print_matrix(matrix2, total_height_size, total_width_size, solution)
 
 
 def draw_cell_lines(lines: list[Cell]) -> list[str]:
@@ -97,7 +99,7 @@ floor_character = "-"
 def print_matrix(
         matrix: list[list[Cell]],
         total_height_size: int,
-        total_width_size: int) -> None:
+        total_width_size: int, solution: list) -> None:
     top_line: str = (
         f"{corner_character}"
         f"{total_width_size * floor_character * CELL_SIZE_WIDHT}"
@@ -128,11 +130,7 @@ def print_matrix(
             print("|" + bot_line + "|")
 
     print(bottom_line)
-
-
-#AQUI VA LO DEL LABERINTO
-    
-
+    print(solution)
 
 if __name__ == "__main__":
     # print(get_input_response())
