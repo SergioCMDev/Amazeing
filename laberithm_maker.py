@@ -2,6 +2,7 @@ import random
 from Cell import Cell
 from matrix_drawer import print_matrix
 from constants import WallPosition
+from utils import get_value_of_positions
 
 def take_start_point(total_height_size: int, total_width_size: int, visited: list[tuple]) -> tuple[int, int]:
     while True:
@@ -17,21 +18,8 @@ def take_start_point(total_height_size: int, total_width_size: int, visited: lis
     else:
         return take_start_point(total_height_size, total_width_size, visited)
 
-def get_value_of_positions(positions : list[WallPosition]) -> int:
-    value: int = 0
-    for pos in positions:
-        if (pos == WallPosition.NORTH):
-            value -= 1
-        if (pos == WallPosition.EAST):
-            value -= 2
-        if (pos == WallPosition.SOUTH):
-            value -= 4
-        if (pos == WallPosition.WEST):
-            value -= 8
-    return value
 
-
-def add_42(num_matrix: list[list[int]], visited: list[tuple], total_height_size: int, total_width_size: int) -> list[list[int]]:
+def add_42(num_matrix: list[list[Cell]], visited: list[tuple], total_height_size: int, total_width_size: int) -> list[list[int]]:
     pixel_1: tuple[int, int] = (total_height_size / 2 - 2, total_width_size / 2 - 3)
     pixel_2: tuple[int, int] = (total_height_size / 2 - 1, total_width_size / 2 - 3)
     pixel_3: tuple[int, int] = (total_height_size / 2, total_width_size / 2 - 3)
@@ -50,24 +38,24 @@ def add_42(num_matrix: list[list[int]], visited: list[tuple], total_height_size:
     pixel_16: tuple[int, int] = (total_height_size / 2 + 2, total_width_size / 2 + 1)
     pixel_17: tuple[int, int] = (total_height_size / 2 + 2, total_width_size / 2 + 2)
     pixel_18: tuple[int, int] = (total_height_size / 2 + 2, total_width_size / 2 + 3) # hasta aqui el 2                 
-    num_matrix[int(pixel_1[0])][int(pixel_1[1])] = Cell(get_value_of_positions([WallPosition.SOUTH])) # 4 solo abajo
-    num_matrix[int(pixel_2[0])][int(pixel_2[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH])) # 4 + 1 abajo y arriba
-    num_matrix[int(pixel_3[0])][int(pixel_3[1])] = Cell(get_value_of_positions([WallPosition.NORTH])) # 1 +2 arriba y derecha
-    num_matrix[int(pixel_4[0])][int(pixel_4[1])] = Cell(get_value_of_positions([WallPosition.WEST])) #8 +2 derecha e izq
-    num_matrix[int(pixel_5[0])][int(pixel_5[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.WEST])) # 8 + 4 izq y abajo
-    num_matrix[int(pixel_6[0])][int(pixel_6[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))  # abajo y arriba
-    num_matrix[int(pixel_7[0])][int(pixel_7[1])] = Cell(get_value_of_positions([WallPosition.NORTH], )) # arriba
-    num_matrix[int(pixel_8[0])][int(pixel_5[1])] = Cell(get_value_of_positions([WallPosition.EAST]))
-    num_matrix[int(pixel_9[0])][int(pixel_9[1])] = Cell(get_value_of_positions([WallPosition.WEST])) # 8 + 4 izq y abajo
-    num_matrix[int(pixel_10[0])][int(pixel_10[1])] = Cell(get_value_of_positions([WallPosition.WEST, WallPosition.SOUTH]))
-    num_matrix[int(pixel_11[0])][int(pixel_11[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-    num_matrix[int(pixel_12[0])][int(pixel_12[1])] = Cell(get_value_of_positions([WallPosition.WEST]))
-    num_matrix[int(pixel_13[0])][int(pixel_13[1])] = Cell(get_value_of_positions([WallPosition.WEST]))
-    num_matrix[int(pixel_14[0])][int(pixel_14[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-    num_matrix[int(pixel_15[0])][int(pixel_15[1])] = Cell(get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-    num_matrix[int(pixel_16[0])][int(pixel_16[1])] = Cell(get_value_of_positions([WallPosition.NORTH]))
-    num_matrix[int(pixel_17[0])][int(pixel_17[1])] = Cell(get_value_of_positions([WallPosition.WEST]))
-    num_matrix[int(pixel_18[0])][int(pixel_18[1])] = Cell(get_value_of_positions([WallPosition.WEST]))
+    num_matrix[int(pixel_1[0])][int(pixel_1[1])].value += get_value_of_positions([WallPosition.SOUTH]) # 4 solo abajo
+    num_matrix[int(pixel_2[0])][int(pixel_2[1])].value += get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]) # 4 + 1 abajo y arriba
+    num_matrix[int(pixel_3[0])][int(pixel_3[1])].value += get_value_of_positions([WallPosition.NORTH]) # 1 +2 arriba y derecha
+    num_matrix[int(pixel_4[0])][int(pixel_4[1])].value += get_value_of_positions([WallPosition.WEST])#8 +2 derecha e izq
+    num_matrix[int(pixel_5[0])][int(pixel_5[1])].value += get_value_of_positions([WallPosition.SOUTH, WallPosition.WEST]) # 8 + 4 izq y abajo
+    num_matrix[int(pixel_6[0])][int(pixel_6[1])].value += get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH])  # abajo y arriba
+    num_matrix[int(pixel_7[0])][int(pixel_7[1])].value += get_value_of_positions([WallPosition.NORTH], ) # arriba
+    num_matrix[int(pixel_8[0])][int(pixel_5[1])].value += get_value_of_positions([WallPosition.EAST])
+    num_matrix[int(pixel_9[0])][int(pixel_9[1])].value += get_value_of_positions([WallPosition.WEST]) # 8 + 4 izq y abajo
+    num_matrix[int(pixel_10[0])][int(pixel_10[1])].value += get_value_of_positions([WallPosition.WEST, WallPosition.SOUTH])
+    num_matrix[int(pixel_11[0])][int(pixel_11[1])].value += get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH])
+    num_matrix[int(pixel_12[0])][int(pixel_12[1])].value += get_value_of_positions([WallPosition.WEST])
+    num_matrix[int(pixel_13[0])][int(pixel_13[1])].value += get_value_of_positions([WallPosition.WEST])
+    num_matrix[int(pixel_14[0])][int(pixel_14[1])].value += get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH])
+    num_matrix[int(pixel_15[0])][int(pixel_15[1])].value += get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH])
+    num_matrix[int(pixel_16[0])][int(pixel_16[1])].value += get_value_of_positions([WallPosition.NORTH])
+    num_matrix[int(pixel_17[0])][int(pixel_17[1])].value += get_value_of_positions([WallPosition.WEST])
+    num_matrix[int(pixel_18[0])][int(pixel_18[1])].value += get_value_of_positions([WallPosition.WEST])
     visited.append(pixel_1)
     visited.append(pixel_2)
     visited.append(pixel_3)
@@ -89,8 +77,8 @@ def add_42(num_matrix: list[list[int]], visited: list[tuple], total_height_size:
     return num_matrix
 
 
-def make_the_maze(total_height_size: int, total_width_size: int) -> list[list[Cell]]:  # añadir matrix: list[list[Cell]],
-    num_matrix: list[list[Cell]] = []
+def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_width_size: int) -> list[list[Cell]]:  # añadir matrix: list[list[Cell]],
+    #num_matrix: list[list[Cell]] = []
     for _ in range(0, total_height_size):
         row: list[Cell] = []
         for width in range(0, total_width_size):

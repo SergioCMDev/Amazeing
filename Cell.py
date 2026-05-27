@@ -1,10 +1,10 @@
-from constants import WallPosition, CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
+from constants import WallPosition, CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT, CELL_INITIAL_VALUE
 import colors
 import random
 
 class Cell:
     def __init__(self,
-                 starting_value: int = 15
+                 starting_value: int = CELL_INITIAL_VALUE
                  ) -> None:
         self.starting_value: int = starting_value
         self.value: int = starting_value

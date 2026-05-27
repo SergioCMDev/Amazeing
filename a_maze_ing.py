@@ -2,9 +2,10 @@ from sys import stdin
 from parser import parse_file
 from dictionary import Dictionary
 from Cell import Cell
-from constants import CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
 from laberithm_maker import make_the_maze
 from matrix_drawer import print_matrix
+from utils import get_value_of_positions
+from constants import WallPosition, CELL_INITIAL_VALUE
 
 
 def main() -> None:
@@ -64,26 +65,27 @@ def get_input_response() -> int:
 
 def create_matrix(heigth: int, width: int) -> list[str]:
     matrix: list[list[Cell]] = []
-    total_height_size = CELL_SIZE_HEIGHT * heigth
-    total_width_size = CELL_SIZE_WIDHT * width
+    #total_height_size = CELL_SIZE_HEIGHT * heigth
+    #total_width_size = CELL_SIZE_WIDHT * width
 
-    print(f"Total height {total_height_size} | Total width {total_width_size}")
-
-    for heigth_it in range(0, total_height_size):
+    print(f"Total height {heigth} | Total width {width}")
+    value = CELL_INITIAL_VALUE
+    for heigth_it in range(0, heigth):
         row: list[Cell] = []
-        top_border_empty: bool = True if heigth_it == 0 else False
-        bot_border_empty: bool = True if (
-            heigth_it == total_height_size - 1) else False
-        for widht_it in range(0, total_width_size):
-            left_border_empty: bool = True if widht_it == 0 else False
-            right_border_empty: bool = True if (
-                widht_it == total_width_size-1) else False
-
-            row.append(Cell())
+        #top_border_empty: bool = True if heigth_it == 0 else False
+        #bot_border_empty: bool = True if (
+        #    heigth_it == heigth - 1) else False
+        for widht_it in range(0, width):
+            #left_border_empty: bool = True if widht_it == 0 else False
+            #right_border_empty: bool = True if (
+            #    widht_it == width-1) else False
+            if(widht_it == 0):
+                value = get_value_of_positions(WallPosition.EAST)
+            row.append(Cell(value))
         matrix.append(row) 
     solution: list = []
-    matrix2, solution = make_the_maze(total_height_size, total_height_size)
-    print_matrix(matrix2, total_height_size, total_width_size, solution)
+    solution = make_the_maze(matrix, heigth, width)
+    print_matrix(matrix, heigth, width, solution)
 
 
 def draw_cell_lines(lines: list[Cell]) -> list[str]:
