@@ -74,7 +74,7 @@ def create_matrix(heigth: int, width: int) -> list[str]:
         row: list[Cell] = []
         for widht_it in range(0, width):
             if(widht_it == 0):
-                value = get_value_of_positions(WallPosition.EAST)
+                value += get_value_of_positions(WallPosition.EAST)
             row.append(Cell(value))
         matrix.append(row) 
     solution: list = []

@@ -35,10 +35,10 @@ class Cell:
         print_west: bool = False
         print_south: bool = False
 
-        if( self.value + 8 >= 0):
+        if( self.value + 8 <= 15):
             print_west = True
             self.value += 8 
-        if( self.value + 4 >= 0):
+        if( self.value + 4 <= 15):
             print_south = True
             self.value += 4 
         mid = ((f"{self.WALL_COLOR}|{self.RES_COLORS}" if not print_west else " ") + solution_char * (CELL_SIZE_WIDHT - 1))
