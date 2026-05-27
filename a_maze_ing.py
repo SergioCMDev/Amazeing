@@ -65,8 +65,6 @@ def get_input_response() -> int:
 
 def create_matrix(heigth: int, width: int) -> list[str]:
     matrix: list[list[Cell]] = []
-    #total_height_size = CELL_SIZE_HEIGHT * heigth
-    #total_width_size = CELL_SIZE_WIDHT * width
 
     print(f"Total height {heigth} | Total width {width}")
     value = CELL_INITIAL_VALUE
@@ -87,9 +85,6 @@ def draw_cell_lines(lines: list[Cell]) -> list[str]:
     for line in lines:
         cells.append(line.draw())
     return cells
-
-
-
 
 
 if __name__ == "__main__":
