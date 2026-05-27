@@ -3,7 +3,7 @@ from Cell import Cell
 from matrix_drawer import print_matrix
 from constants import WallPosition
 from utils import get_value_of_positions
-
+from dictionary import Dictionary
 def take_start_point(total_height_size: int, total_width_size: int, visited: list[tuple]) -> tuple[int, int]:
     while True:
         random_w = random.randint(1, total_width_size -1)
@@ -77,7 +77,7 @@ def add_42(num_matrix: list[list[Cell]], visited: list[tuple], total_height_size
     return num_matrix
 
 
-def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_width_size: int) -> list[list[Cell]]: 
+def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_width_size: int, dict : Dictionary) -> list[list[Cell]]: 
     visited: list[tuple] = []
     random.seed(1) # Cambiar
     num_matrix = add_42(num_matrix, visited, total_height_size, total_width_size)
@@ -144,9 +144,9 @@ def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_w
          print([cell.value for cell in a])
     print("\n Matriz real con laberinto")
     #print_matrix(num_matrix, total_height_size, total_width_size, solution)
-    ENTRY: tuple = [1, 4] #borrar
-    EXIT: tuple = [2, 5]# borrar
-    solution = find_the_way(num_matrix, ENTRY, EXIT) #coger entry y exit pero no se todavia como ni donde
+    ENTRY: tuple =     dict.get_entry()
+    EXIT: tuple =     dict.get_exit()
+    solution = find_the_way(num_matrix, ENTRY, EXIT) 
     return solution
 
 

@@ -37,7 +37,7 @@ def main() -> None:
     if (heigth is None or width is None):
         return
     print()
-    create_matrix(heigth, width)
+    create_matrix(heigth, width, data_parsed)
 
 
 def get_input_response() -> int:
@@ -63,7 +63,7 @@ def get_input_response() -> int:
             print(f"'{readed}' no es una opción valida")
 
 
-def create_matrix(heigth: int, width: int) -> list[str]:
+def create_matrix(heigth: int, width: int, dict: Dictionary) -> list[str]:
     matrix: list[list[Cell]] = []
 
     print(f"Total height {heigth} | Total width {width}")
@@ -76,7 +76,7 @@ def create_matrix(heigth: int, width: int) -> list[str]:
             row.append(Cell(value))
         matrix.append(row) 
     solution: list = []
-    solution = make_the_maze(matrix, heigth, width)
+    solution = make_the_maze(matrix, heigth, width, dict)
     print_matrix(matrix, heigth, width, solution)
 
 

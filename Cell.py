@@ -46,3 +46,21 @@ class Cell:
         bot = f"{self.WALL_COLOR}-{self.RES_COLORS}" * CELL_SIZE_WIDHT if not print_south else " " * CELL_SIZE_WIDHT
 
         return [top, mid, bot]
+
+#Opcion 2
+    #def draw(self) -> list[str]:
+    #    solution_char: str = "·" if self.solution_path else " "
+        
+    #    # NORTE: si bit 0 (valor 1) está presente, dibuja pared
+    #    top = f"{self.WALL_COLOR}-{self.RES_COLORS}" * CELL_SIZE_WIDHT if (self.value & 1) else " " * CELL_SIZE_WIDHT
+        
+    #    # OESTE: si bit 3 (valor 8) está presente, dibuja pared
+    #    print_west = True if (self.value & 8) else False
+        
+    #    # SUR: si bit 2 (valor 4) está presente, dibuja pared
+    #    print_south = True if (self.value & 4) else False
+        
+    #    mid = ((f"{self.WALL_COLOR}|{self.RES_COLORS}" if print_west else " ") + solution_char * (CELL_SIZE_WIDHT - 1))
+    #    bot = f"{self.WALL_COLOR}-{self.RES_COLORS}" * CELL_SIZE_WIDHT if print_south else " " * CELL_SIZE_WIDHT
+
+    #    return [top, mid, bot]
