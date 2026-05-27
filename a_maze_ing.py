@@ -72,13 +72,7 @@ def create_matrix(heigth: int, width: int) -> list[str]:
     value = CELL_INITIAL_VALUE
     for heigth_it in range(0, heigth):
         row: list[Cell] = []
-        #top_border_empty: bool = True if heigth_it == 0 else False
-        #bot_border_empty: bool = True if (
-        #    heigth_it == heigth - 1) else False
         for widht_it in range(0, width):
-            #left_border_empty: bool = True if widht_it == 0 else False
-            #right_border_empty: bool = True if (
-            #    widht_it == width-1) else False
             if(widht_it == 0):
                 value = get_value_of_positions(WallPosition.EAST)
             row.append(Cell(value))

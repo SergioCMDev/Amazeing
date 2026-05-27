@@ -77,16 +77,7 @@ def add_42(num_matrix: list[list[Cell]], visited: list[tuple], total_height_size
     return num_matrix
 
 
-def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_width_size: int) -> list[list[Cell]]:  # añadir matrix: list[list[Cell]],
-    #num_matrix: list[list[Cell]] = []
-    for _ in range(0, total_height_size):
-        row: list[Cell] = []
-        for width in range(0, total_width_size):
-            value: int = 15
-            if(width == 0):
-                value = get_value_of_positions(WallPosition.EAST)
-            row.append(Cell(value))
-        num_matrix.append(row)
+def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_width_size: int) -> list[list[Cell]]: 
     visited: list[tuple] = []
     random.seed(1) # Cambiar
     num_matrix = add_42(num_matrix, visited, total_height_size, total_width_size)
@@ -156,7 +147,7 @@ def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_w
     ENTRY: tuple = [1, 4] #borrar
     EXIT: tuple = [2, 5]# borrar
     solution = find_the_way(num_matrix, ENTRY, EXIT) #coger entry y exit pero no se todavia como ni donde
-    return num_matrix, solution
+    return solution
 
 
 # make_the_maze(16, 16)
