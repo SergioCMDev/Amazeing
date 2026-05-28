@@ -4,6 +4,8 @@ from matrix_drawer import print_matrix
 from constants import WallPosition
 from utils import get_value_of_positions
 from dictionary import Dictionary
+
+
 def take_start_point(total_height_size: int, total_width_size: int, visited: list[tuple]) -> tuple[int, int]:
     while True:
         random_w = random.randint(1, total_width_size -1)
@@ -79,8 +81,15 @@ def add_42(num_matrix: list[list[Cell]], visited: list[tuple], total_height_size
 
 def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_width_size: int, dict : Dictionary) -> list[list[Cell]]: 
     visited: list[tuple] = []
+    ENTRY: tuple = dict.get_entry()
+    EXIT: tuple = dict.get_exit()
     random.seed(1) # Cambiar
+    tem_matrix: list[list[Cell]] = num_matrix
     num_matrix = add_42(num_matrix, visited, total_height_size, total_width_size)
+    for a in visited:
+        if a == ENTRY or a == EXIT:
+            num_matrix = tem_matrix
+            print("IMPOSSIBLE PRINT 42")
     start_point: tuple[int, int] = take_start_point(total_height_size, total_width_size, visited)
     start_point = (2,3)
     stack: list[tuple] = []
@@ -100,7 +109,6 @@ def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_w
         found_valid: bool = False
         if (not current_cord in visited):
             visited.append(current_cord)
-        #print(f"VISITED {current_cord} --- {len(visited)}")
         for random_direc in directions:
             temp_cord = (current_cord[0] + random_direc[0], current_cord[1] + random_direc[1])
             if not (0 <= temp_cord[0] < total_height_size and 0 <= temp_cord[1] < total_width_size):
@@ -133,8 +141,7 @@ def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_w
             break
         if not found_valid:
             if len(stack) > 0:
-                current_cord = stack.pop() 
-                break  
+                current_cord = stack.pop()   
 
 
     
@@ -144,8 +151,6 @@ def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_w
          print([cell.value for cell in a])
     print("\n Matriz real con laberinto")
     #print_matrix(num_matrix, total_height_size, total_width_size, solution)
-    ENTRY: tuple =     dict.get_entry()
-    EXIT: tuple =     dict.get_exit()
     solution = find_the_way(num_matrix, ENTRY, EXIT) 
     return solution
 
