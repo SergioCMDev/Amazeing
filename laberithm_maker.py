@@ -79,10 +79,21 @@ def add_42(num_matrix: list[list[Cell]], visited: list[tuple], total_height_size
     return num_matrix
 
 
+def count_wall_opened(value: int) -> int:
+    counter: int = 0
+    for bit in [1, 2, 4, 8]:
+        if (value & bit) == 0:
+            counter += 1
+    return counter
+    
+
+
 def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_width_size: int, dict : Dictionary) -> list[list[Cell]]: 
     visited: list[tuple] = []
     ENTRY: tuple = dict.get_entry()
     EXIT: tuple = dict.get_exit()
+    perfect: bool = True #dict.get_is_perfect
+    
     random.seed(1) # Cambiar
     tem_matrix: list[list[Cell]] = num_matrix
     num_matrix = add_42(num_matrix, visited, total_height_size, total_width_size)
@@ -114,6 +125,8 @@ def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_w
             if not (0 <= temp_cord[0] < total_height_size and 0 <= temp_cord[1] < total_width_size):
                 continue
             if temp_cord in visited:
+                continue
+            if perfect and count_wall_opened(num_matrix[temp_cord[0]][temp_cord[1]].value) >= 2:
                 continue
             #print(f"CURRENT {current_cord}")
             if random_direc == up:
