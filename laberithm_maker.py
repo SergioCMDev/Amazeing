@@ -180,7 +180,7 @@ def find_the_way(num_matrix: list[list[Cell]], start_point: tuple[int, int],
             next_pos = (actual[0][0] + py, actual[0][1] + px)
             if (0 <= next_pos[0] < len(num_matrix) and 0 <= next_pos[1] < len(num_matrix[0]) 
                 and next_pos not in visited
-                and (num_matrix[actual[0][0]][actual[0][1]].value & bit) != 0):
+                and (num_matrix[actual[0][0]][actual[0][1]].value & bit) == 0):
                 new_way: list = actual[1] + [next_pos]
                 new_mov = actual[2] + [movement]
                 backup.append((next_pos, new_way, new_mov))
