@@ -67,7 +67,7 @@ def get_input_response(matrix: list[list[Cell]], total_height_size: int, total_w
                 show_path = not show_path
                 print_matrix(matrix, total_height_size, total_width_size, solution, show_path)
             if input == 3:
-               # WALL_COLOR = random.choice(colors.COL_LIST) #ARREGLAR
+                Cell.change_color()
                 print_matrix(matrix, total_height_size, total_width_size, solution, show_path)
             if input == 4:
                 return

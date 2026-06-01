@@ -25,6 +25,11 @@ class Cell:
         elif (position == WallPosition.WEST):
             self.walls[3] = False
 
+    @classmethod
+    def change_color(cls) -> None:
+        cls.WALL_COLOR = random.choice(colors.COL_LIST)
+        cls.SOLUTTION = random.choice(colors.COL_LIST)
+
     def open_all_walls(self) -> None:
         for wall_it in range(0, 4):
             self.walls[wall_it] = False
