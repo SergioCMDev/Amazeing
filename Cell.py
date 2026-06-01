@@ -30,7 +30,7 @@ class Cell:
             self.walls[wall_it] = False
 
     def draw(self) -> list[str]:
-        solution_char: str = f"{self.SOLUTTION}{' ' * (CELL_SIZE_WIDHT - 1)}{self.RES_COLORS}" if self.solution_path else " " * (CELL_SIZE_WIDHT - 1)
+        solution_char: str = f"{self.SOLUTTION}{' x '}{self.RES_COLORS}" if self.solution_path else " " * (CELL_SIZE_WIDHT - 1)
         top = f"{self.WALL_COLOR}-{self.RES_COLORS}" * CELL_SIZE_WIDHT if not self.value % 2 else " " * CELL_SIZE_WIDHT 
         print_west: bool = False
         print_south: bool = False

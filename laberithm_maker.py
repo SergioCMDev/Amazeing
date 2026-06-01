@@ -4,7 +4,40 @@ from matrix_drawer import print_matrix
 from constants import WallPosition
 from utils import get_value_of_positions
 from dictionary import Dictionary
+from constants import WallPosition, CELL_INITIAL_VALUE
 
+class MazeGenerator:
+    def __init__(self, height: int, width: int, config: Dictionary, seed: int = None):
+        self.height = config.get_heigth()
+        self.width = config.get_width()
+        self.entry = config.get_entry()
+        self.exit = config.get_exit()
+        self.perfect = config.get_is_perfect()
+        
+        if seed is None:
+            self.seed = random.randrange(1000000)
+        else:
+            self.seed = seed
+        random.seed(self.seed)
+        
+        self.matrix: list[list[Cell]] = []
+        self.solution: list[tuple] = []
+
+def create_matrix(heigth: int, width: int, dict: Dictionary) -> list[str]:
+    matrix: list[list[Cell]] = []
+
+    print(f"Total height {heigth} | Total width {width}")
+    value = CELL_INITIAL_VALUE
+    for heigth_it in range(0, heigth):
+        row: list[Cell] = []
+        for widht_it in range(0, width):
+            if(widht_it == 0):
+                value += get_value_of_positions(WallPosition.EAST)
+            row.append(Cell(value))
+        matrix.append(row) 
+    solution: list = []
+    solution = make_the_maze(matrix, heigth, width, dict)
+    print_matrix(matrix, heigth, width, solution)
 
 def take_start_point(total_height_size: int, total_width_size: int, visited: list[tuple]) -> tuple[int, int]:
     while True:
@@ -92,9 +125,9 @@ def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_w
     visited: list[tuple] = []
     ENTRY: tuple = dict.get_entry()
     EXIT: tuple = dict.get_exit()
-    perfect: bool = True #dict.get_is_perfect
-    
-    random.seed(1) # Cambiar
+    perfect = dict.get_is_perfect()
+    maze_seed = random.randrange(1000000)
+    random.seed(1)
     tem_matrix: list[list[Cell]] = num_matrix
     num_matrix = add_42(num_matrix, visited, total_height_size, total_width_size)
     for a in visited:
@@ -112,9 +145,6 @@ def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_w
     current_cord: tuple[int, int] = start_point
     temp_cord: tuple[int, int]
     solution: list = []
-    # print(f"initial visited len {len(visited)}") #TODO borrar
-    #print_matrix(num_matrix, total_height_size, total_width_size, solution)
-
     while len(visited) != (total_height_size * total_width_size):
         random.shuffle(directions)
         found_valid: bool = False
@@ -128,21 +158,20 @@ def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_w
                 continue
             if perfect and count_wall_opened(num_matrix[temp_cord[0]][temp_cord[1]].value) >= 2:
                 continue
-            #print(f"CURRENT {current_cord}")
             if random_direc == up:
                 num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.NORTH])
                 if (current_cord[0] - 1 >= 0):
-                    num_matrix[current_cord[0] - 1][current_cord[1]].value += get_value_of_positions([WallPosition.SOUTH])   #rompo pared de abajo y    juntanterior con este
+                    num_matrix[current_cord[0] - 1][current_cord[1]].value += get_value_of_positions([WallPosition.SOUTH])
                 found_valid = True
             elif random_direc == down:
                 num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.SOUTH])         
                 if (current_cord[0] + 1 < total_height_size):
-                    num_matrix[current_cord[0] + 1][current_cord[1]].value += get_value_of_positions([WallPosition.NORTH])      #rompo pared de arriba y junto anterior con este
+                    num_matrix[current_cord[0] + 1][current_cord[1]].value += get_value_of_positions([WallPosition.NORTH])
                 found_valid = True
             elif random_direc == right:
                 num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.EAST])       
                 if (current_cord[1] + 1 < total_width_size):
-                    num_matrix[current_cord[0]][current_cord[1] + 1].value += get_value_of_positions([WallPosition.WEST])   #rompo pared de izquierda y junto con lo anterior
+                    num_matrix[current_cord[0]][current_cord[1] + 1].value += get_value_of_positions([WallPosition.WEST])
                 found_valid = True
             elif random_direc == left:
                 num_matrix[current_cord[0]][current_cord[1]].value += get_value_of_positions([WallPosition.WEST])
@@ -156,19 +185,13 @@ def make_the_maze(num_matrix : list[list[Cell]], total_height_size: int, total_w
             if len(stack) > 0:
                 current_cord = stack.pop()   
 
-
-    
-    
     print("\n Matriz de numeros")
     for a in num_matrix:
          print([cell.value for cell in a])
     print("\n Matriz real con laberinto")
-    #print_matrix(num_matrix, total_height_size, total_width_size, solution)
     solution = find_the_way(num_matrix, ENTRY, EXIT) 
-    return solution
+    return solution, maze_seed
 
-
-# make_the_maze(16, 16)
 
 def find_the_way(num_matrix: list[list[Cell]], start_point: tuple[int, int],
                  end_point: tuple[int, int]) -> list[tuple[int, int],]:
@@ -198,7 +221,6 @@ def find_the_way(num_matrix: list[list[Cell]], start_point: tuple[int, int],
                 new_mov = actual[2] + [movement]
                 backup.append((next_pos, new_way, new_mov))
     return []
-    
-    
+
 
 
