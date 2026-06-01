@@ -29,19 +29,23 @@ class Cell:
         for wall_it in range(0, 4):
             self.walls[wall_it] = False
 
-    def draw(self) -> list[str]:
-        solution_char: str = f"{self.SOLUTTION}{' x '}{self.RES_COLORS}" if self.solution_path else " " * (CELL_SIZE_WIDHT - 1)
+    def draw(self,show_path: bool) -> list[str]:
+        if show_path and self.solution_path:
+            solution_char: str = f"{self.SOLUTTION}{' x '}{self.RES_COLORS}"
+        else:
+            solution_char: str = " " * (CELL_SIZE_WIDHT - 1)
         top = f"{self.WALL_COLOR}-{self.RES_COLORS}" * CELL_SIZE_WIDHT if not self.value % 2 else " " * CELL_SIZE_WIDHT 
         print_west: bool = False
         print_south: bool = False
+        temp_value: int = self.value
 
-        if( self.value + 8 <= 15):
+        if( temp_value + 8 <= 15):
             print_west = True
-            self.value += 8 
-        if( self.value + 4 <= 15):
+            temp_value += 8 
+        if( temp_value + 4 <= 15):
             print_south = True
-            self.value += 4 
-        mid = ((f"{self.WALL_COLOR}|{self.RES_COLORS}" if not print_west else " ") + solution_char)
+            temp_value += 4
+        mid = (f"{self.WALL_COLOR}|{self.RES_COLORS}" if not print_west else " ") + solution_char
             #   + " " * (CELL_SIZE_WIDHT - 2) + ("|" if self.walls[1] else " "))
         bot = f"{self.WALL_COLOR}-{self.RES_COLORS}" * CELL_SIZE_WIDHT if not print_south else " " * CELL_SIZE_WIDHT
 

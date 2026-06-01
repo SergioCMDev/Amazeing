@@ -2,7 +2,7 @@ from sys import stdin
 from parser import parse_file
 from dictionary import Dictionary
 from Cell import Cell
-from laberithm_maker import make_the_maze, create_matrix
+from laberithm_maker import MazeGenerator
 from matrix_drawer import print_matrix
 from utils import get_value_of_positions
 from constants import WallPosition, CELL_INITIAL_VALUE
@@ -32,15 +32,17 @@ def main() -> None:
     # for key, value in data_parsed.items():
     #     print(f"Key {key}-{value}", end="")
 
-    heigth: int | None = data_parsed.get_heigth()
+    height: int | None = data_parsed.get_height()
     width: int | None = data_parsed.get_width()
-    if (heigth is None or width is None):
+    if (height is None or width is None):
         return
     print()
-    create_matrix(heigth, width, data_parsed)
+    generator = MazeGenerator(data_parsed)
+    matrix, solution, seed = generator.generate()
+    get_input_response(matrix, height, width, solution, seed)
 
 
-def get_input_response(matrix: list[list[Cell]], total_height_size: int, total_width_size: int, solution: list) -> int:
+def get_input_response(matrix: list[list[Cell]], total_height_size: int, total_width_size: int, solution: list, seed: int) -> int:
     input: int = 4
     show_path: bool = False
     while (True):
@@ -62,24 +64,23 @@ def get_input_response(matrix: list[list[Cell]], total_height_size: int, total_w
             if input == 1:
                 print_matrix(matrix, total_height_size, total_width_size, solution, show_path)
             if input == 2:
-                show_path = -show_path
+                show_path = not show_path
                 print_matrix(matrix, total_height_size, total_width_size, solution, show_path)
             if input == 3:
                # WALL_COLOR = random.choice(colors.COL_LIST) #ARREGLAR
                 print_matrix(matrix, total_height_size, total_width_size, solution, show_path)
             if input == 4:
-                pass
-            return input
+                return
         except ValueError:
             print(f"'{readed}' is not a valid option.")
 
 
-#def create_matrix(heigth: int, width: int, dict: Dictionary) -> list[str]:
+#def create_matrix(height: int, width: int, dict: Dictionary) -> list[str]:
 #    matrix: list[list[Cell]] = []
 
-#    print(f"Total height {heigth} | Total width {width}")
+#    print(f"Total height {height} | Total width {width}")
 #    value = CELL_INITIAL_VALUE
-#    for heigth_it in range(0, heigth):
+#    for height_it in range(0, height):
 #        row: list[Cell] = []
 #        for widht_it in range(0, width):
 #            if(widht_it == 0):
@@ -87,8 +88,8 @@ def get_input_response(matrix: list[list[Cell]], total_height_size: int, total_w
 #            row.append(Cell(value))
 #        matrix.append(row) 
 #    solution: list = []
-#    solution = make_the_maze(matrix, heigth, width, dict)
-#    print_matrix(matrix, heigth, width, solution)
+#    solution = make_the_maze(matrix, height, width, dict)
+#    print_matrix(matrix, height, width, solution)
 
 
 def draw_cell_lines(lines: list[Cell]) -> list[str]:

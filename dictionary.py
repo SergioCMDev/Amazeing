@@ -28,7 +28,7 @@ class Dictionary:
             return None
         return int(self._dictionary["WIDTH"])
 
-    def get_heigth(self) -> int | None:
+    def get_height(self) -> int | None:
         key_size: int = len(self._dictionary.keys())
         if key_size == 0 or self._dictionary["HEIGHT"] is None:
             return None
