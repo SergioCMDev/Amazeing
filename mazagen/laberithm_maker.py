@@ -13,15 +13,16 @@ class MazeGenerator:
         self.entry = config.get_entry()
         self.exit = config.get_exit()
         self.perfect = config.get_is_perfect()
-        
+
         if seed is None:
             self.seed = random.randrange(1000000)
         else:
             self.seed = seed
         random.seed(self.seed)
-        
+
         self.matrix: list[list[Cell]] = []
         self.solution: list[tuple] = []
+        self.movements: list[str] = []
 
     def create_matrix(self) -> None:
         self.matrix = []
@@ -185,8 +186,10 @@ class MazeGenerator:
             if actual[0] == self.exit:
                 for coord in actual[1]:
                     self.matrix[coord[0]][coord[1]].solution_path = True
-                return actual[1]
-
+                if len(actual[1]) > 0:
+                    self.matrix[self.entry[0]][self.entry[1]].is_entry = True
+                    self.matrix[self.exit[0]][self.exit[1]].is_exit = True
+                return actual[1], actual[2]
             if actual[0] in visited:
                 continue
             visited.append(actual[0])
@@ -203,5 +206,5 @@ class MazeGenerator:
     def generate(self) -> tuple[list[list[Cell]], list[tuple], int]:
         self.create_matrix()
         self.make_the_maze()
-        self.solution = self.find_the_way()
-        return self.matrix, self.solution, self.seed
+        self.solution, self.movements = self.find_the_way()
+        return self.matrix, self.solution, self.movements, self.seed

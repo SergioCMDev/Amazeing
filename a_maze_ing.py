@@ -6,6 +6,8 @@ from mazagen.laberithm_maker import MazeGenerator
 from matrix_drawer import print_matrix
 from mazagen.utils import get_value_of_positions
 from mazagen.constants import WallPosition, CELL_INITIAL_VALUE
+import sys
+import typing
 
 
 def main() -> None:
@@ -38,8 +40,10 @@ def main() -> None:
         return
     print()
     generator = MazeGenerator(data_parsed, seed=42)
-    matrix, solution, seed = generator.generate()
+    matrix, solution, movements, seed = generator.generate()
+    print_matrix(matrix, height, width, solution, False)
     get_input_response(matrix, data_parsed, height, width, solution, seed)
+    the_txt(matrix, data_parsed, movements)
 
 
 def get_input_response(matrix: list[list[Cell]], data_parsed: Dictionary, total_height_size: int, total_width_size: int, solution: list, seed: int) -> int:
@@ -93,6 +97,25 @@ def get_input_response(matrix: list[list[Cell]], data_parsed: Dictionary, total_
 #    solution = make_the_maze(matrix, height, width, dict)
 #    print_matrix(matrix, height, width, solution)
 
+def the_txt(matrix: list[list[Cell]], data_parsed: Dictionary, solution: list) -> None:
+    new_file = sys.stdin.readline().strip()
+    new_file = "output_maze.txt"
+    try:
+        with open(new_file, "w") as f:
+            for row in matrix:
+                row_hex: str = ""
+                for cell in row:
+                    row_hex += f"{cell.value:X}"
+                f.write(row_hex + "\n")
+            f.write(f"Entry: {data_parsed.get_entry()}\n")
+            f.write(f"Exit: {data_parsed.get_exit()}\n")           
+            the_solution: str = ""
+            for i in solution:
+                the_solution += i
+            f.write(the_solution)
+    except (OSError, ValueError) as e:
+                sys.stderr.write(f"[STDERR] Error opening file "
+                                f"'{new_file}': {e}\nData not saved.\n")
 
 def draw_cell_lines(lines: list[Cell]) -> list[str]:
     cells: list[str] = []

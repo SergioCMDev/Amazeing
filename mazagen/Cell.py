@@ -9,6 +9,8 @@ class Cell:
         self.starting_value: int = starting_value
         self.value: int = starting_value
         self.solution_path: bool = False
+        self.is_entry: bool = False
+        self.is_exit: bool = False
     
     WALL_COLOR = random.choice(colors.COL_LIST)
     SOLUTTION = random.choice(colors.COL_LIST)
@@ -36,7 +38,14 @@ class Cell:
 
     def draw(self,show_path: bool) -> list[str]:
         if show_path and self.solution_path:
-            solution_char: str = f"{self.SOLUTTION}{' x '}{self.RES_COLORS}"
+            icon: str = ""
+            if self.is_entry:
+                icon = " ☻ "
+            elif self.is_exit:
+                icon = " ♨ "
+            else:
+                icon: str = ' ✈ '
+            solution_char: str = f"{self.SOLUTTION}{icon}{self.RES_COLORS}"
         else:
             solution_char: str = " " * (CELL_SIZE_WIDHT - 1)
         top = f"{self.WALL_COLOR}-{self.RES_COLORS}" * CELL_SIZE_WIDHT if not self.value % 2 else " " * CELL_SIZE_WIDHT 
