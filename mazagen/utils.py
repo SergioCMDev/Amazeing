@@ -12,7 +12,8 @@ def get_coord_value(value: Any) -> tuple[int, int] | None:
     except ValueError:
         return None
 
-def get_value_of_positions(positions : list[WallPosition]) -> int:
+
+def get_value_of_positions(positions: list[WallPosition]) -> int:
     value: int = 0
     for pos in positions:
         if (pos == WallPosition.NORTH):

@@ -4,10 +4,7 @@ from mazagen.dictionary import Dictionary
 from mazagen.Cell import Cell
 from mazagen.laberithm_maker import MazeGenerator
 from matrix_drawer import print_matrix
-from mazagen.utils import get_value_of_positions
-from mazagen.constants import WallPosition, CELL_INITIAL_VALUE
 import sys
-import typing
 
 
 def main() -> None:
@@ -42,11 +39,14 @@ def main() -> None:
     generator = MazeGenerator(data_parsed, seed=42)
     matrix, solution, movements, seed = generator.generate()
     print_matrix(matrix, height, width, solution, False)
-    get_input_response(matrix, data_parsed, height, width, solution, seed)
+    get_input_response(matrix, data_parsed, height, width, solution, movements, seed)
     the_txt(matrix, data_parsed, movements)
 
 
-def get_input_response(matrix: list[list[Cell]], data_parsed: Dictionary, total_height_size: int, total_width_size: int, solution: list, seed: int) -> int:
+def get_input_response(matrix: list[list[Cell]],
+                       data_parsed: Dictionary, total_height_size: int,
+                       total_width_size: int,
+                       solution: list, movements: list, seed: int) -> None:
     input: int = 4
     show_path: bool = False
     while (True):
@@ -67,37 +67,28 @@ def get_input_response(matrix: list[list[Cell]], data_parsed: Dictionary, total_
                 continue
             if input == 1:
                 generator = MazeGenerator(data_parsed)
-                matrix, solution, seed = generator.generate()
-                print_matrix(matrix, total_height_size, total_width_size, solution, show_path)
+                matrix, solution, movements, seed = generator.generate()
+                print_matrix(
+                    matrix, total_height_size,
+                    total_width_size, solution, show_path)
             if input == 2:
                 show_path = not show_path
-                print_matrix(matrix, total_height_size, total_width_size, solution, show_path)
+                print_matrix(
+                    matrix, total_height_size,
+                    total_width_size, solution, show_path)
             if input == 3:
                 Cell.change_color()
-                print_matrix(matrix, total_height_size, total_width_size, solution, show_path)
+                print_matrix(
+                    matrix, total_height_size,
+                    total_width_size, solution, show_path)
             if input == 4:
                 return
         except ValueError:
             print(f"'{readed}' is not a valid option.")
 
 
-#def create_matrix(height: int, width: int, dict: Dictionary) -> list[str]:
-#    matrix: list[list[Cell]] = []
-
-#    print(f"Total height {height} | Total width {width}")
-#    value = CELL_INITIAL_VALUE
-#    for height_it in range(0, height):
-#        row: list[Cell] = []
-#        for widht_it in range(0, width):
-#            if(widht_it == 0):
-#                value += get_value_of_positions(WallPosition.EAST)
-#            row.append(Cell(value))
-#        matrix.append(row) 
-#    solution: list = []
-#    solution = make_the_maze(matrix, height, width, dict)
-#    print_matrix(matrix, height, width, solution)
-
-def the_txt(matrix: list[list[Cell]], data_parsed: Dictionary, solution: list) -> None:
+def the_txt(matrix: list[list[Cell]],
+            data_parsed: Dictionary, solution: list) -> None:
     new_file = sys.stdin.readline().strip()
     new_file = "output_maze.txt"
     try:
@@ -108,22 +99,21 @@ def the_txt(matrix: list[list[Cell]], data_parsed: Dictionary, solution: list) -
                     row_hex += f"{cell.value:X}"
                 f.write(row_hex + "\n")
             f.write(f"Entry: {data_parsed.get_entry()}\n")
-            f.write(f"Exit: {data_parsed.get_exit()}\n")           
+            f.write(f"Exit: {data_parsed.get_exit()}\n")
             the_solution: str = ""
             for i in solution:
                 the_solution += i
             f.write(the_solution)
     except (OSError, ValueError) as e:
-                sys.stderr.write(f"[STDERR] Error opening file "
-                                f"'{new_file}': {e}\nData not saved.\n")
-
-def draw_cell_lines(lines: list[Cell]) -> list[str]:
-    cells: list[str] = []
-    for line in lines:
-        cells.append(line.draw())
-    return cells
+        sys.stderr.write(
+            f"[STDERR] Error opening file "
+            f"'{new_file}': {e}\nData not saved.\n")
+#def draw_cell_lines(lines: list[Cell]) -> list[str]:
+#    cells: list[str] = []
+#    for line in lines:
+#        cells.append(line.draw())
+#    return cells
 
 
 if __name__ == "__main__":
-    # print(get_input_response())
     main()

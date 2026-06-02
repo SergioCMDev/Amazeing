@@ -1,8 +1,9 @@
 from mazagen.Cell import Cell
-from mazagen.constants import CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
+from mazagen.constants import CELL_SIZE_WIDHT
 
 corner_character = "*"
 floor_character = "-"
+
 
 def print_matrix(
         matrix: list[list[Cell]],
