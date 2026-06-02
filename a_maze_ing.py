@@ -1,11 +1,11 @@
 from sys import stdin
 from parser import parse_file
-from dictionary import Dictionary
-from Cell import Cell
-from laberithm_maker import MazeGenerator
+from mazagen.dictionary import Dictionary
+from mazagen.Cell import Cell
+from mazagen.laberithm_maker import MazeGenerator
 from matrix_drawer import print_matrix
-from utils import get_value_of_positions
-from constants import WallPosition, CELL_INITIAL_VALUE
+from mazagen.utils import get_value_of_positions
+from mazagen.constants import WallPosition, CELL_INITIAL_VALUE
 
 
 def main() -> None:
@@ -37,12 +37,12 @@ def main() -> None:
     if (height is None or width is None):
         return
     print()
-    generator = MazeGenerator(data_parsed)
+    generator = MazeGenerator(data_parsed, seed=42)
     matrix, solution, seed = generator.generate()
-    get_input_response(matrix, height, width, solution, seed)
+    get_input_response(matrix, data_parsed, height, width, solution, seed)
 
 
-def get_input_response(matrix: list[list[Cell]], total_height_size: int, total_width_size: int, solution: list, seed: int) -> int:
+def get_input_response(matrix: list[list[Cell]], data_parsed: Dictionary, total_height_size: int, total_width_size: int, solution: list, seed: int) -> int:
     input: int = 4
     show_path: bool = False
     while (True):
@@ -62,6 +62,8 @@ def get_input_response(matrix: list[list[Cell]], total_height_size: int, total_w
                 print(f"'{readed}' is not a valid option.")
                 continue
             if input == 1:
+                generator = MazeGenerator(data_parsed)
+                matrix, solution, seed = generator.generate()
                 print_matrix(matrix, total_height_size, total_width_size, solution, show_path)
             if input == 2:
                 show_path = not show_path

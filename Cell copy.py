@@ -1,4 +1,4 @@
-from constants import WallPosition, CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
+from mazagen.constants import WallPosition, CELL_SIZE_HEIGHT, CELL_SIZE_WIDHT
 import colors
 import random
 

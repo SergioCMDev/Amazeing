@@ -1,10 +1,10 @@
 import random
-from Cell import Cell
-from matrix_drawer import print_matrix
-from constants import WallPosition
-from utils import get_value_of_positions
-from dictionary import Dictionary
-from constants import WallPosition, CELL_INITIAL_VALUE
+from mazagen.Cell import Cell
+from mazagen.constants import WallPosition
+from mazagen.utils import get_value_of_positions
+from mazagen.dictionary import Dictionary
+from mazagen.constants import WallPosition, CELL_INITIAL_VALUE
+
 
 class MazeGenerator:
     def __init__(self, config: Dictionary, seed: int = None):

@@ -1,6 +1,6 @@
 from typing import Any
 from collections.abc import KeysView, ItemsView
-from utils import get_coord_value
+from mazagen.utils import get_coord_value
 from keys import mandatory_keys
 
 

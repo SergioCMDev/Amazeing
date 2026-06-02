@@ -1,8 +1,8 @@
 from io import TextIOWrapper
-from dictionary import Dictionary
-from utils import get_coord_value
+from mazagen.dictionary import Dictionary
+from mazagen.utils import get_coord_value
 from keys import valid_keys
-import constants
+import mazagen.constants as constants
 
 
 def line_has_two_parts(line_parts: list[str]) -> bool:
@@ -39,7 +39,7 @@ def data_for_key_valid(line_parts: list[str]) -> bool:
                 filename: str = str(line_parts[1])
                 if (filename.endswith("\n")):
                     filename = filename.removesuffix("\n")
-                open(filename)
+                open(filename, "a")
                 return True
             except (ValueError, FileNotFoundError):
                 return False
