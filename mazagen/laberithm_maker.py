@@ -51,7 +51,8 @@ class MazeGenerator:
         else:
             return self.take_start_point(visited)
 
-    def add_42(self, visited: list[tuple]) -> None:
+    def get_42_pos(self) -> list[tuple[int, int]]:
+        list_pos: list[tuple[int, int]] = []
         pixel_1: tuple[int, int] = (self.height // 2 - 2, self.width // 2 - 3)
         pixel_2: tuple[int, int] = (self.height // 2 - 1, self.width // 2 - 3)
         pixel_3: tuple[int, int] = (self.height // 2, self.width // 2 - 3)
@@ -70,60 +71,67 @@ class MazeGenerator:
         pixel_16: tuple[int, int] = (self.height // 2 + 2, self.width // 2 + 1)
         pixel_17: tuple[int, int] = (self.height // 2 + 2, self.width // 2 + 2)
         pixel_18: tuple[int, int] = (self.height // 2 + 2, self.width // 2 + 3)
-        self.matrix[int(pixel_1[0])][int(pixel_1[1])].value += (
+        list_pos.append(pixel_1)
+        list_pos.append(pixel_2)
+        list_pos.append(pixel_3)
+        list_pos.append(pixel_4)
+        list_pos.append(pixel_5)
+        list_pos.append(pixel_6)
+        list_pos.append(pixel_7)
+        list_pos.append(pixel_8)
+        list_pos.append(pixel_9)
+        list_pos.append(pixel_10)
+        list_pos.append(pixel_11)
+        list_pos.append(pixel_12)
+        list_pos.append(pixel_13)
+        list_pos.append(pixel_14)
+        list_pos.append(pixel_15)
+        list_pos.append(pixel_16)
+        list_pos.append(pixel_17)
+        list_pos.append(pixel_18)
+
+        return list_pos
+
+    def add_42(self, visited: list[tuple], list_pos42:list[tuple[int, int]]) -> None:
+
+        self.matrix[int(list_pos42[0][0])][int(list_pos42[0][1])].value += (
             get_value_of_positions([WallPosition.SOUTH]))
-        self.matrix[int(pixel_2[0])][int(pixel_2[1])].value += (
+        self.matrix[int(list_pos42[1][0])][int(list_pos42[1][1])].value += (
             get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-        self.matrix[int(pixel_3[0])][int(pixel_3[1])].value += (
+        self.matrix[int(list_pos42[2][0])][int(list_pos42[2][1])].value += (
             get_value_of_positions([WallPosition.NORTH]))
-        self.matrix[int(pixel_4[0])][int(pixel_4[1])].value += (
+        self.matrix[int(list_pos42[3][0])][int(list_pos42[3][1])].value += (
             get_value_of_positions([WallPosition.WEST]))
-        self.matrix[int(pixel_5[0])][int(pixel_5[1])].value += (
+        self.matrix[int(list_pos42[4][0])][int(list_pos42[4][1])].value += (
             get_value_of_positions([WallPosition.SOUTH, WallPosition.WEST]))
-        self.matrix[int(pixel_6[0])][int(pixel_6[1])].value += (
+        self.matrix[int(list_pos42[5][0])][int(list_pos42[5][1])].value += (
             get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-        self.matrix[int(pixel_7[0])][int(pixel_7[1])].value += (
+        self.matrix[int(list_pos42[6][0])][int(list_pos42[6][1])].value += (
             get_value_of_positions([WallPosition.NORTH]))
-        self.matrix[int(pixel_8[0])][int(pixel_5[1])].value += (
+        self.matrix[int(list_pos42[7][0])][int(list_pos42[7][1])].value += (
             get_value_of_positions([WallPosition.EAST]))
-        self.matrix[int(pixel_9[0])][int(pixel_9[1])].value += (
+        self.matrix[int(list_pos42[8][0])][int(list_pos42[8][1])].value += (
             get_value_of_positions([WallPosition.WEST]))
-        self.matrix[int(pixel_10[0])][int(pixel_10[1])].value += (
+        self.matrix[int(list_pos42[9][0])][int(list_pos42[9][1])].value += (
             get_value_of_positions([WallPosition.WEST, WallPosition.SOUTH]))
-        self.matrix[int(pixel_11[0])][int(pixel_11[1])].value += (
+        self.matrix[int(list_pos42[10][0])][int(list_pos42[10][1])].value += (
             get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-        self.matrix[int(pixel_12[0])][int(pixel_12[1])].value += (
+        self.matrix[int(list_pos42[11][0])][int(list_pos42[11][1])].value += (
             get_value_of_positions([WallPosition.WEST]))
-        self.matrix[int(pixel_13[0])][int(pixel_13[1])].value += (
+        self.matrix[int(list_pos42[12][0])][int(list_pos42[12][1])].value += (
             get_value_of_positions([WallPosition.WEST]))
-        self.matrix[int(pixel_14[0])][int(pixel_14[1])].value += (
+        self.matrix[int(list_pos42[13][0])][int(list_pos42[13][1])].value += (
             get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-        self.matrix[int(pixel_15[0])][int(pixel_15[1])].value += (
+        self.matrix[int(list_pos42[14][0])][int(list_pos42[14][1])].value += (
             get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-        self.matrix[int(pixel_16[0])][int(pixel_16[1])].value += (
+        self.matrix[int(list_pos42[15][0])][int(list_pos42[15][1])].value += (
             get_value_of_positions([WallPosition.NORTH]))
-        self.matrix[int(pixel_17[0])][int(pixel_17[1])].value += (
+        self.matrix[int(list_pos42[16][0])][int(list_pos42[16][1])].value += (
             get_value_of_positions([WallPosition.WEST]))
-        self.matrix[int(pixel_18[0])][int(pixel_18[1])].value += (
+        self.matrix[int(list_pos42[17][0])][int(list_pos42[17][1])].value += (
             get_value_of_positions([WallPosition.WEST]))
-        visited.append(pixel_1)
-        visited.append(pixel_2)
-        visited.append(pixel_3)
-        visited.append(pixel_4)
-        visited.append(pixel_5)
-        visited.append(pixel_6)
-        visited.append(pixel_7)
-        visited.append(pixel_8)
-        visited.append(pixel_9)
-        visited.append(pixel_10)
-        visited.append(pixel_11)
-        visited.append(pixel_12)
-        visited.append(pixel_13)
-        visited.append(pixel_14)
-        visited.append(pixel_15)
-        visited.append(pixel_16)
-        visited.append(pixel_17)
-        visited.append(pixel_18)
+        for it_list in list_pos42:
+            visited.append(it_list)
 
     def count_wall_opened(self, value: int) -> int:
         counter: int = 0
@@ -135,12 +143,14 @@ class MazeGenerator:
     def make_the_maze(self) -> None:
         visited: list[tuple] = []
         temp_matrix: list[list[Cell]] = self.matrix
-        self.add_42(visited)
-        for a in visited:
-            if a == self.entry or a == self.exit:
-                self.matrix = temp_matrix
-                print("IMPOSSIBLE PRINT 42")
-                visited = []
+        list_42_cells = self.get_42_pos()
+        if( self.entry in list_42_cells or self.exit in list_42_cells):
+            self.matrix = temp_matrix
+            print("IMPOSSIBLE PRINT 42")
+            visited = []
+        else:
+            self.add_42(visited, list_42_cells)
+    
         start_point: tuple[int, int] = self.take_start_point(visited)
         stack: list[tuple] = []
         up: tuple[int, int] = (-1, 0)
