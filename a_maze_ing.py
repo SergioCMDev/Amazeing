@@ -39,7 +39,7 @@ def main() -> None:
     generator = MazeGenerator(data_parsed, seed=42)
     matrix, solution, movements, seed = generator.generate()
     print_matrix(matrix, height, width, solution, False)
-    get_input_response(
+    matrix, solution, movements, seed = get_input_response(
         matrix, data_parsed, height,
         width, solution, movements, seed)
     the_txt(matrix, data_parsed, movements)
@@ -48,7 +48,8 @@ def main() -> None:
 def get_input_response(matrix: list[list[Cell]],
                        data_parsed: Dictionary, total_height_size: int,
                        total_width_size: int,
-                       solution: list, movements: list, seed: int) -> None:
+                       solution: list, movements: list, seed: int
+                       ) -> tuple[list[list[Cell]], list, list]:
     input: int = 4
     show_path: bool = False
     while (True):
@@ -84,7 +85,7 @@ def get_input_response(matrix: list[list[Cell]],
                     matrix, total_height_size,
                     total_width_size, solution, show_path)
             if input == 4:
-                return
+                return matrix, solution, movements, seed
         except ValueError:
             print(f"'{readed}' is not a valid option.")
 
