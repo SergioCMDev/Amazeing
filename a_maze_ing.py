@@ -3,8 +3,10 @@ from parser import parse_file
 from mazagen.dictionary import Dictionary
 from mazagen.Cell import Cell
 from mazagen.laberithm_maker import MazeGenerator
+
 from matrix_drawer import print_matrix
 import sys
+
 
 
 def main() -> None:
@@ -91,7 +93,6 @@ def get_input_response(matrix: list[list[Cell]],
 
 def the_txt(matrix: list[list[Cell]],
             data_parsed: Dictionary, solution: list) -> None:
-    new_file = sys.stdin.readline().strip()
     new_file = "output_maze.txt"
     try:
         with open(new_file, "w") as f:

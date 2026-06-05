@@ -35,7 +35,7 @@ class MazeGenerator:
                 current_cell_value: int = value
                 if (widht_it == 0):
                     current_cell_value += get_value_of_positions(
-                        [WallPosition.EAST])
+                        [WallPosition.WEST])
                 row.append(Cell(current_cell_value))
             self.matrix.append(row)
 
@@ -241,7 +241,10 @@ class MazeGenerator:
         return [], []
 
     def generate(self) -> tuple[list[list[Cell]], list[tuple], list[str], int]:
-        self.create_matrix()
-        self.make_the_maze()
-        self.solution, self.movements = self.find_the_way()
+        
+        while(len(self.solution) == 0):
+            self.create_matrix()
+            self.make_the_maze()
+            self.solution, self.movements = self.find_the_way()
+        
         return self.matrix, self.solution, self.movements, self.seed
