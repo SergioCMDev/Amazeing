@@ -26,12 +26,10 @@ def main() -> None:
         return
     if (data_parsed is None
             or not data_parsed.check_mandatory_keys_are_in_dict()
-            or data_parsed.get_entry() == data_parsed.get_exit()):
+            or data_parsed.get_entry() == data_parsed.get_exit()
+            or not data_parsed.initial_positions_inside_matrix()):
         print("There is no valid file")
         return
-
-    # for key, value in data_parsed.items():
-    #     print(f"Key {key}-{value}", end="")
 
     height: int | None = data_parsed.get_height()
     width: int | None = data_parsed.get_width()

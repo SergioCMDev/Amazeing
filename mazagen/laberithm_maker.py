@@ -26,8 +26,6 @@ class MazeGenerator:
 
     def create_matrix(self) -> None:
         self.matrix = []
-
-        print(f"Total height {self.height} | Total width {self.width}")
         value = CELL_INITIAL_VALUE
         for height_it in range(0, self.height):
             row: list[Cell] = []
@@ -142,6 +140,7 @@ class MazeGenerator:
             if a == self.entry or a == self.exit:
                 self.matrix = temp_matrix
                 print("IMPOSSIBLE PRINT 42")
+                visited = []
         start_point: tuple[int, int] = self.take_start_point(visited)
         stack: list[tuple] = []
         up: tuple[int, int] = (-1, 0)

@@ -62,3 +62,7 @@ class Dictionary:
 
     def check_mandatory_keys_are_in_dict(self) -> bool:
         return all(key in self.keys() for key in mandatory_keys)
+
+    def initial_positions_inside_matrix(self) -> bool:
+        return ( 0 <= self.get_entry()[0] < self.get_height() and   
+                0 <= self.get_entry()[1] < self.get_width())
