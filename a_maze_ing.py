@@ -39,7 +39,9 @@ def main() -> None:
     generator = MazeGenerator(data_parsed, seed=42)
     matrix, solution, movements, seed = generator.generate()
     print_matrix(matrix, height, width, solution, False)
-    get_input_response(matrix, data_parsed, height, width, solution, movements, seed)
+    get_input_response(
+        matrix, data_parsed, height,
+        width, solution, movements, seed)
     the_txt(matrix, data_parsed, movements)
 
 
@@ -108,11 +110,6 @@ def the_txt(matrix: list[list[Cell]],
         sys.stderr.write(
             f"[STDERR] Error opening file "
             f"'{new_file}': {e}\nData not saved.\n")
-#def draw_cell_lines(lines: list[Cell]) -> list[str]:
-#    cells: list[str] = []
-#    for line in lines:
-#        cells.append(line.draw())
-#    return cells
 
 
 if __name__ == "__main__":

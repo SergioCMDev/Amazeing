@@ -6,12 +6,13 @@ from mazagen.constants import WallPosition, CELL_INITIAL_VALUE
 
 
 class MazeGenerator:
-    def __init__(self, config: Dictionary, seed: int = None):
-        self.height = config.get_height()
-        self.width = config.get_width()
-        self.entry = config.get_entry()
-        self.exit = config.get_exit()
-        self.perfect = config.get_is_perfect()
+    def __init__(self, config: Dictionary, seed: int | None = None):
+        self.height: int = config.get_height() or 10
+        self.width: int = config.get_width() or 10
+        self.entry: tuple = config.get_entry() or (1, 1)
+        self.exit: tuple = config.get_exit() or (1, 2)
+        self.perfect: bool = bool(config.get_is_perfect())
+        self.seed: int
 
         if seed is None:
             self.seed = random.randrange(1000000)
@@ -31,9 +32,11 @@ class MazeGenerator:
         for height_it in range(0, self.height):
             row: list[Cell] = []
             for widht_it in range(0, self.width):
+                current_cell_value: int = value
                 if (widht_it == 0):
-                    value += get_value_of_positions(WallPosition.EAST)
-                row.append(Cell(value))
+                    current_cell_value += get_value_of_positions(
+                        [WallPosition.EAST])
+                row.append(Cell(current_cell_value))
             self.matrix.append(row)
 
     def take_start_point(self, visited: list[tuple]) -> tuple[int, int]:
@@ -51,24 +54,24 @@ class MazeGenerator:
             return self.take_start_point(visited)
 
     def add_42(self, visited: list[tuple]) -> None:
-        pixel_1: tuple[int, int] = (self.height / 2 - 2, self.width / 2 - 3)
-        pixel_2: tuple[int, int] = (self.height / 2 - 1, self.width / 2 - 3)
-        pixel_3: tuple[int, int] = (self.height / 2, self.width / 2 - 3)
-        pixel_4: tuple[int, int] = (self.height / 2, self.width / 2 - 2)
-        pixel_5: tuple[int, int] = (self.height / 2, self.width / 2 - 1)
-        pixel_6: tuple[int, int] = (self.height / 2 + 1, self.width / 2 - 1)
-        pixel_7: tuple[int, int] = (self.height / 2 + 2, self.width / 2 - 1)
-        pixel_8: tuple[int, int] = (self.height / 2 - 2, self.width / 2 + 1)
-        pixel_9: tuple[int, int] = (self.height / 2 - 2, self.width / 2 + 2)
-        pixel_10: tuple[int, int] = (self.height / 2 - 2, self.width / 2 + 3)
-        pixel_11: tuple[int, int] = (self.height / 2 - 1, self.width / 2 + 3)
-        pixel_12: tuple[int, int] = (self.height / 2, self.width / 2 + 3)
-        pixel_13: tuple[int, int] = (self.height / 2, self.width / 2 + 2)
-        pixel_14: tuple[int, int] = (self.height / 2, self.width / 2 + 1)
-        pixel_15: tuple[int, int] = (self.height / 2 + 1, self.width / 2 + 1)
-        pixel_16: tuple[int, int] = (self.height / 2 + 2, self.width / 2 + 1)
-        pixel_17: tuple[int, int] = (self.height / 2 + 2, self.width / 2 + 2)
-        pixel_18: tuple[int, int] = (self.height / 2 + 2, self.width / 2 + 3)
+        pixel_1: tuple[int, int] = (self.height // 2 - 2, self.width // 2 - 3)
+        pixel_2: tuple[int, int] = (self.height // 2 - 1, self.width // 2 - 3)
+        pixel_3: tuple[int, int] = (self.height // 2, self.width // 2 - 3)
+        pixel_4: tuple[int, int] = (self.height // 2, self.width // 2 - 2)
+        pixel_5: tuple[int, int] = (self.height // 2, self.width // 2 - 1)
+        pixel_6: tuple[int, int] = (self.height // 2 + 1, self.width // 2 - 1)
+        pixel_7: tuple[int, int] = (self.height // 2 + 2, self.width // 2 - 1)
+        pixel_8: tuple[int, int] = (self.height // 2 - 2, self.width // 2 + 1)
+        pixel_9: tuple[int, int] = (self.height // 2 - 2, self.width // 2 + 2)
+        pixel_10: tuple[int, int] = (self.height // 2 - 2, self.width // 2 + 3)
+        pixel_11: tuple[int, int] = (self.height // 2 - 1, self.width // 2 + 3)
+        pixel_12: tuple[int, int] = (self.height // 2, self.width // 2 + 3)
+        pixel_13: tuple[int, int] = (self.height // 2, self.width // 2 + 2)
+        pixel_14: tuple[int, int] = (self.height // 2, self.width // 2 + 1)
+        pixel_15: tuple[int, int] = (self.height // 2 + 1, self.width // 2 + 1)
+        pixel_16: tuple[int, int] = (self.height // 2 + 2, self.width // 2 + 1)
+        pixel_17: tuple[int, int] = (self.height // 2 + 2, self.width // 2 + 2)
+        pixel_18: tuple[int, int] = (self.height // 2 + 2, self.width // 2 + 3)
         self.matrix[int(pixel_1[0])][int(pixel_1[1])].value += (
             get_value_of_positions([WallPosition.SOUTH]))
         self.matrix[int(pixel_2[0])][int(pixel_2[1])].value += (
@@ -131,7 +134,7 @@ class MazeGenerator:
                 counter += 1
         return counter
 
-    def make_the_maze(self) -> list[list[Cell]]:
+    def make_the_maze(self) -> None:
         visited: list[tuple] = []
         temp_matrix: list[list[Cell]] = self.matrix
         self.add_42(visited)
@@ -203,14 +206,16 @@ class MazeGenerator:
                 if len(stack) > 0:
                     current_cord = stack.pop()
 
-    def find_the_way(self) -> list[tuple[int, int], list[str]]:
+    def find_the_way(self) -> tuple[list[tuple[int, int]], list[str]]:
         the_way: list[tuple[int, int]] = [self.entry]
         visited: list[tuple] = []
-        backup: list = [(self.entry, the_way, [])]
-        directions: list[tuple[int, int, int]] = [(-1, 0, 1, 'N'),
-                                                  (1, 0, 4, 'S'),
-                                                  (0, 1, 2, 'E'),
-                                                  (0, -1, 8, 'W')]
+        backup: list[tuple[tuple[int, int],
+                           list[tuple[int, int]],
+                           list[str]]] = [(self.entry, the_way, [])]
+        directions: list[tuple[int, int, int, str]] = [(-1, 0, 1, 'N'),
+                                                       (1, 0, 4, 'S'),
+                                                       (0, 1, 2, 'E'),
+                                                       (0, -1, 8, 'W')]
         while len(backup) != 0:
             actual = backup.pop(0)
             if actual[0] == self.exit:
