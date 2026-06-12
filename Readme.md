@@ -1,6 +1,6 @@
 *This project has been created as part of the 42 curriculum by scristau, adrvarga*
 
-**Desctiption**
+**Description**
 The goal of this project is to generate a procedural maze based on parameters read from an editable `.txt` file. The program parses the file, generates the maze grid, calculates its solution, and prints everything in the terminal using ASCII characters and ANSI colors to highlight the path.
 
 **Instructions**

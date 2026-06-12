@@ -93,7 +93,7 @@ def get_input_response(matrix: list[list[Cell]],
 
 def the_txt(matrix: list[list[Cell]],
             data_parsed: Dictionary, solution: list) -> None:
-    new_file = "output_maze.txt"
+    new_file = data_parsed.get_output_file()
     try:
         with open(new_file, "w") as f:
             for row in matrix:
