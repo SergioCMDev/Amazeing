@@ -22,11 +22,21 @@ def key_is_valid(key_name: str) -> bool:
 
 def data_for_key_valid(line_parts: list[str]) -> bool:
     key: str = line_parts[0]
+    size: int = 0
     match key:
-        case "WIDTH" | "HEIGHT":
+        case "HEIGHT":
             try:
-                size: int = int(line_parts[1])
-                if (size <= constants.MIN_SIZE_WIDTH or
+                size = int(line_parts[1])
+                if (size < constants.MIN_SIZE_HEIGHT
+                        or size >= constants.MAX_SIZE):
+                    return False
+                return True
+            except ValueError:
+                return False
+        case "WIDTH":
+            try:
+                size = int(line_parts[1])
+                if (size < constants.MIN_SIZE_WIDTH or
                         size >= constants.MAX_SIZE):
                     return False
                 return True
@@ -46,7 +56,7 @@ def data_for_key_valid(line_parts: list[str]) -> bool:
                 return False
         case "PERFECT":
             try:
-                if(not(line_parts[1] == 'True' or line_parts[1] == 'False')):
+                if (not (line_parts[1] == 'True' or line_parts[1] == 'False')):
                     raise ValueError
                 return True
             except ValueError:

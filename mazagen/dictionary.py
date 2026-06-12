@@ -64,5 +64,20 @@ class Dictionary:
         return all(key in self.keys() for key in mandatory_keys)
 
     def initial_positions_inside_matrix(self) -> bool:
-        return ( 0 <= self.get_entry()[0] < self.get_height() and   
-                0 <= self.get_entry()[1] < self.get_width())
+        entry = self.get_entry()
+        exit = self.get_exit()
+        width = self.get_width()
+        height = self.get_height()
+
+        if (entry is None or exit is None or width is None or height is None):
+            return False
+
+        height_entry: int = entry[0]
+        width_entry: int = entry[1]
+
+        height_exit: int = exit[0]
+        width_exit: int = exit[1]
+        return (height_entry >= 0 and height_entry < height and
+                width_entry >= 0 and width_entry < width and
+                height_exit >= 0 and height_exit < height and
+                width_exit >= 0 and width_exit < width)

@@ -8,13 +8,12 @@ from matrix_drawer import print_matrix
 import sys
 
 
-
 def main() -> None:
     input_list: list[str] = sys.argv
     if (len(input_list) != 2):
         print("Configuration file is required")
         return
-    if(not input_list[1].endswith(".txt")):
+    if (not input_list[1].endswith(".txt")):
         print("Configuration file is not valid")
         return
     filename: str = input_list[1]
@@ -38,18 +37,18 @@ def main() -> None:
     if (height is None or width is None):
         return
     generator = MazeGenerator(data_parsed, seed=42)
-    matrix, solution, movements, seed = generator.generate()
+    matrix, solution, movements = generator.generate()
     print_matrix(matrix, height, width, solution, False)
-    matrix, solution, movements, seed = get_input_response(
+    matrix, solution, movements = get_input_response(
         matrix, data_parsed, height,
-        width, solution, movements, seed)
+        width, solution, movements)
     the_txt(matrix, data_parsed, movements)
 
 
 def get_input_response(matrix: list[list[Cell]],
                        data_parsed: Dictionary, total_height_size: int,
                        total_width_size: int,
-                       solution: list, movements: list, seed: int
+                       solution: list, movements: list
                        ) -> tuple[list[list[Cell]], list, list]:
     input: int = 4
     show_path: bool = False
@@ -71,7 +70,7 @@ def get_input_response(matrix: list[list[Cell]],
                 continue
             if input == 1:
                 generator = MazeGenerator(data_parsed)
-                matrix, solution, movements, seed = generator.generate()
+                matrix, solution, movements = generator.generate()
                 print_matrix(
                     matrix, total_height_size,
                     total_width_size, solution, show_path)
@@ -86,7 +85,7 @@ def get_input_response(matrix: list[list[Cell]],
                     matrix, total_height_size,
                     total_width_size, solution, show_path)
             if input == 4:
-                return matrix, solution, movements, seed
+                return matrix, solution, movements
         except ValueError:
             print(f"'{readed}' is not a valid option.")
 
@@ -94,6 +93,8 @@ def get_input_response(matrix: list[list[Cell]],
 def the_txt(matrix: list[list[Cell]],
             data_parsed: Dictionary, solution: list) -> None:
     new_file = data_parsed.get_output_file()
+    if not new_file:
+        return None
     try:
         with open(new_file, "w") as f:
             for row in matrix:
