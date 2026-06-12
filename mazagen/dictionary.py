@@ -17,9 +17,9 @@ class Dictionary:
         return self._dictionary.items()
 
     def add(self, data: list[str]) -> bool:
-        if (self._dictionary.get(data[0]) is not None):
+        if (self._dictionary.get(data[0])):
             return False
-        self._dictionary[data[0]] = data[1]
+        self._dictionary[data[0]] = data[1].strip()
         return True
 
     def get_width(self) -> int | None:
@@ -58,7 +58,7 @@ class Dictionary:
         key_size: int = len(self._dictionary.keys())
         if key_size == 0 or self._dictionary["PERFECT"] is None:
             return None
-        return bool(self._dictionary["PERFECT"])
+        return self._dictionary["PERFECT"] == 'True'
 
     def check_mandatory_keys_are_in_dict(self) -> bool:
         return all(key in self.keys() for key in mandatory_keys)

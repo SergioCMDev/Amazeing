@@ -6,11 +6,11 @@ The goal of this project is to generate a procedural maze based on parameters re
 **Instructions**
 Compile the project using the following command:
 make
-After that, you will see a display with all the comands that you ca n do.
+After that, you will see a display with all the comands that you can do.
 If you want to see the maze, choose "make run".
 Now you will see the generic maze and under the maze a few options to generate another mazes, change colors, show/hide solutions, an exit.
 You can modify the config.txt to change the configuration of the maze.
-To finish the proyect you will recieve output_maze.txt. Here you have the hexadecimal last maze that you saw, the start and finish poin and the solution in coordinates N, S, E, W.
+To finish the proyect you will recieve output_maze.txt. Here you have the hexadecimal last maze that you saw, the start and finish point and the solution in coordinates N, S, E, W.
 **Resources**
 The knowledge of the others students in 42 Malaga.
 https://maestraonline.com/simbolos-ascii-e-iconos-para-todos-los-gustos/ 3/6/2026

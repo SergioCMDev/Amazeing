@@ -10,12 +10,14 @@ import sys
 
 
 def main() -> None:
-    # input_list: list[str] = argv
-    # if (len(input_list) != 2):
-    #     print("No se ha introducido nombre de archivo")
-    #     return
-    # filename: str = input_list[1]
-    filename: str = "config.txt"
+    input_list: list[str] = sys.argv
+    if (len(input_list) != 2):
+        print("Configuration file is required")
+        return
+    if(not input_list[1].endswith(".txt")):
+        print("Configuration file is not valid")
+        return
+    filename: str = input_list[1]
 
     data_parsed: Dictionary | None
     try:
@@ -35,7 +37,6 @@ def main() -> None:
     width: int | None = data_parsed.get_width()
     if (height is None or width is None):
         return
-    print()
     generator = MazeGenerator(data_parsed, seed=42)
     matrix, solution, movements, seed = generator.generate()
     print_matrix(matrix, height, width, solution, False)

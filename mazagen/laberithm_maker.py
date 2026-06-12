@@ -2,7 +2,7 @@ import random
 from mazagen.Cell import Cell
 from mazagen.utils import get_value_of_positions
 from mazagen.dictionary import Dictionary
-from mazagen.constants import WallPosition, CELL_INITIAL_VALUE
+from mazagen.constants import WallPosition, CELL_INITIAL_VALUE, MIN_SIZE_42
 
 
 class MazeGenerator:
@@ -23,6 +23,11 @@ class MazeGenerator:
         self.matrix: list[list[Cell]] = []
         self.solution: list[tuple] = []
         self.movements: list[str] = []
+
+        self.directions_list: list[tuple[int, int, int, str]] = [(-1, 0, 1, 'N'),
+                                                       (1, 0, 4, 'S'),
+                                                       (0, 1, 2, 'E'),
+                                                       (0, -1, 8, 'W')]
 
     def create_matrix(self) -> None:
         self.matrix = []
@@ -144,13 +149,12 @@ class MazeGenerator:
         visited: list[tuple] = []
         temp_matrix: list[list[Cell]] = self.matrix
         list_42_cells = self.get_42_pos()
-        if( self.entry in list_42_cells or self.exit in list_42_cells):
+        if( self.entry in list_42_cells or self.exit in list_42_cells or self.height <= MIN_SIZE_42 or self.width <= MIN_SIZE_42):
             self.matrix = temp_matrix
             print("IMPOSSIBLE PRINT 42")
             visited = []
         else:
             self.add_42(visited, list_42_cells)
-    
         start_point: tuple[int, int] = self.take_start_point(visited)
         stack: list[tuple] = []
         up: tuple[int, int] = (-1, 0)
@@ -172,9 +176,7 @@ class MazeGenerator:
                         0 <= temp_cord[1] < self.width):
                     continue
                 if temp_cord in visited:
-                    continue
-                if self.perfect and self.count_wall_opened(
-                     self.matrix[temp_cord[0]][temp_cord[1]].value) >= 2:
+                    #if not self.perfect and temp_cord not in list_42_cells and 
                     continue
                 if random_direc == up:
                     self.matrix[current_cord[0]][current_cord[1]].value += (
@@ -210,10 +212,68 @@ class MazeGenerator:
                     found_valid = True
                 stack.append(current_cord)
                 current_cord = temp_cord
+
                 break
             if not found_valid:
                 if len(stack) > 0:
                     current_cord = stack.pop()
+        if not self.perfect:
+            self.break_random_wall(visited, list_42_cells)
+
+    def break_random_wall(self, visited: list[tuple], list_42_cells: list[tuple[int, int]]) -> None:
+        for cell in visited:
+            if cell in list_42_cells: 
+                continue
+            cell_in_matrix = self.matrix[int(cell[0])][int(cell[1])]
+            if cell_in_matrix.value == 0:
+                continue
+            cell_value = cell_in_matrix.value
+            for py, px, bit, movement in self.directions_list:
+                if (cell_value & bit == 0):
+                    continue
+                if bit == 1:
+                    if int(cell[0]) - 1 < 0:
+                        continue
+                    cell_to_move = self.matrix[int(cell[0]) - 1][int(cell[1])]
+                    
+                    if cell_to_move in list_42_cells:
+                        continue
+                    else:
+                        cell_in_matrix.value += get_value_of_positions([WallPosition.NORTH])
+                        cell_to_move.value += (get_value_of_positions([WallPosition.SOUTH]))
+                        return
+                if bit == 2:
+                    if int(cell[1]) + 1 >= self.width:
+                        continue
+                    cell_to_move = self.matrix[int(cell[0])][int(cell[1] + 1)]
+                    if cell_to_move in list_42_cells:
+                        continue
+                    else:
+                        cell_in_matrix.value += get_value_of_positions([WallPosition.EAST])
+                        cell_to_move.value += (get_value_of_positions([WallPosition.WEST]))
+                        return
+                if bit == 4:
+                    if int(cell[0]) + 1 >= self.height:
+                        continue
+                    cell_to_move = self.matrix[int(cell[0]) + 1][int(cell[1])]
+                    if cell_to_move in list_42_cells:
+                        continue
+                    else:
+                        cell_in_matrix.value += get_value_of_positions([WallPosition.SOUTH])
+                        cell_to_move.value += (get_value_of_positions([WallPosition.NORTH]))
+                        return
+                if bit == 8:
+                    if int(cell[1]) - 1 < 0:
+                        continue
+                    cell_to_move = self.matrix[int(cell[0])][int(cell[1] - 1)]
+                    if cell_to_move in list_42_cells:
+                        continue
+                    else:
+                        cell_in_matrix.value += get_value_of_positions([WallPosition.WEST])
+                        cell_to_move.value += (get_value_of_positions([WallPosition.EAST]))
+
+                        return
+
 
     def find_the_way(self) -> tuple[list[tuple[int, int]], list[str]]:
         the_way: list[tuple[int, int]] = [self.entry]
@@ -221,10 +281,8 @@ class MazeGenerator:
         backup: list[tuple[tuple[int, int],
                            list[tuple[int, int]],
                            list[str]]] = [(self.entry, the_way, [])]
-        directions: list[tuple[int, int, int, str]] = [(-1, 0, 1, 'N'),
-                                                       (1, 0, 4, 'S'),
-                                                       (0, 1, 2, 'E'),
-                                                       (0, -1, 8, 'W')]
+
+
         while len(backup) != 0:
             actual = backup.pop(0)
             if actual[0] == self.exit:
@@ -237,7 +295,7 @@ class MazeGenerator:
             if actual[0] in visited:
                 continue
             visited.append(actual[0])
-            for py, px, bit, movement in directions:
+            for py, px, bit, movement in self.directions_list:
                 next_pos = (actual[0][0] + py, actual[0][1] + px)
                 if (0 <= next_pos[0] < len(self.matrix) and
                     0 <= next_pos[1] < len(self.matrix[0]) and
@@ -255,5 +313,6 @@ class MazeGenerator:
             self.create_matrix()
             self.make_the_maze()
             self.solution, self.movements = self.find_the_way()
-        
+            print(self.perfect)
+
         return self.matrix, self.solution, self.movements, self.seed

@@ -26,8 +26,8 @@ def data_for_key_valid(line_parts: list[str]) -> bool:
         case "WIDTH" | "HEIGHT":
             try:
                 size: int = int(line_parts[1])
-                if (size < constants.MIN_SIZE_WIDTH or
-                        size > constants.MAX_SIZE):
+                if (size <= constants.MIN_SIZE_WIDTH or
+                        size >= constants.MAX_SIZE):
                     return False
                 return True
             except ValueError:
@@ -46,7 +46,8 @@ def data_for_key_valid(line_parts: list[str]) -> bool:
                 return False
         case "PERFECT":
             try:
-                bool(line_parts[1])
+                if(not(line_parts[1] == 'True' or line_parts[1] == 'False')):
+                    raise ValueError
                 return True
             except ValueError:
                 return False
@@ -77,5 +78,4 @@ def parse_file(file: TextIOWrapper) -> Dictionary | None:
         if (not dictionary.add(line_parts)):
             print(f"Line {counter} has a key added previously")
             continue
-        print(f"Line {counter} added correctly")
     return dictionary if len(dictionary.keys()) > 0 else None

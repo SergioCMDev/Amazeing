@@ -18,25 +18,10 @@ class Cell:
     SOLUTTION = random.choice(colors.COL_LIST)
     RES_COLORS = colors.RESET
 
-    # def open_wall(self, position: WallPosition) -> None:
-    # #esto lo estamos utilizando??
-    #     if (position == WallPosition.NORTH):
-    #         self.walls[0] = False
-    #     elif (position == WallPosition.EAST):
-    #         self.walls[1] = False
-    #     elif (position == WallPosition.SOUTH):
-    #         self.walls[2] = False
-    #     elif (position == WallPosition.WEST):
-    #         self.walls[3] = False
-
     @classmethod
     def change_color(cls) -> None:
         cls.WALL_COLOR = random.choice(colors.COL_LIST)
         cls.SOLUTTION = random.choice(colors.COL_LIST)
-
-    # def open_all_walls(self) -> None:
-    #     for wall_it in range(0, 4):
-    #         self.walls[wall_it] = False
 
     def draw(self, show_path: bool) -> list[str]:
         solution_char: str

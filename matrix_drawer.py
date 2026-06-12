@@ -40,4 +40,3 @@ def print_matrix(
             print("|" + bot_line + "|")
 
     print(bottom_line)
-    print(solution)
