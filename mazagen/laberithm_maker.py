@@ -322,6 +322,5 @@ class MazeGenerator:
             self.create_matrix()
             self.make_the_maze()
             self.solution, self.movements = self.find_the_way()
-            print(self.perfect)
 
         return self.matrix, self.solution, self.movements

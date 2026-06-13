@@ -83,7 +83,8 @@ def parse_file(file: TextIOWrapper) -> Dictionary | None:
             print(f"Line {counter} has invalid key")
             continue
         if (not data_for_key_valid(line_parts)):
-            print(f"Line {counter} has invalid data for key")
+            print(f"Line {counter} with key {line_parts[0]}"
+                  f" has invalid data for key")
             continue
         if (not dictionary.add(line_parts)):
             print(f"Line {counter} has a key added previously")
