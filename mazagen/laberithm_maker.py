@@ -152,7 +152,7 @@ class MazeGenerator:
         visited: list[tuple] = []
         temp_matrix: list[list[Cell]] = self.matrix
         list_42_cells = self.get_42_pos()
-        if (self.entry in list_42_cells or self.exit in list_42_cells 
+        if (self.entry in list_42_cells or self.exit in list_42_cells
            or self.height <= MIN_SIZE_42 or self.width <= MIN_SIZE_42):
             self.matrix = temp_matrix
             print("IMPOSSIBLE PRINT 42")
