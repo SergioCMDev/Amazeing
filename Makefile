@@ -6,7 +6,7 @@ FLAKE8 = $(VENV)/bin/flake8
 PIP = $(VENV)/bin/pip
 CONFIG_FILE=config.txt
 #----- Targets -----
-.PHONY: help, install, lint, run, debug, clean
+.PHONY: help, install, lint, run, debug, clean, build, clean_build
 
 help:
 	@echo "***Wellcome to our project!***"
@@ -42,3 +42,11 @@ debug:
 clean:
 	rm -rf __pycache__
 	rm -rf venv
+
+clean_build:
+	rm -r maze_generator.egg-info
+	rm -r dist
+
+build:
+	@echo "Creating package"
+	python3 -m build
