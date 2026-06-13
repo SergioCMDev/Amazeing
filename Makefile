@@ -4,6 +4,7 @@ PYTHON = $(VENV)/bin/python3
 MYPY = $(VENV)/bin/mypy
 FLAKE8 = $(VENV)/bin/flake8
 PIP = $(VENV)/bin/pip
+CONFIG_FILE=config.txt
 #----- Targets -----
 .PHONY: help, install, lint, run, debug, clean
 
@@ -18,23 +19,26 @@ help:
 	@echo "  install  - install the dependencies from requirements.txt"
 
 install: requirements.txt
-	echo "Creating env"
+	@echo "Creating env"
 	python3 -m venv venv 
-	echo "Install requirements"
+	@echo "Install requirements"
 	$(PIP) install -r requirements.txt
 
 lint:
-	echo $(pwd)
+	@echo "Executing Mypy"
 	$(MYPY) . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
+	
+	@echo "Executing flake8"
 	$(FLAKE8) .
 
 run: install
-	echo "Executing program"
-	$(PYTHON) a_maze_ing.py config.txt
+	@echo "Executing program"
+	$(PYTHON) a_maze_ing.py $(CONFIG_FILE)
 
 debug:
-	echo "Debub WIP"
-	$(PYTHON) -m pdb a_maze_ing.py ee
+	@echo "Debug"
+	$(PYTHON) -m pdb a_maze_ing.py $(CONFIG_FILE)
+
 clean:
 	rm -rf __pycache__
 	rm -rf venv

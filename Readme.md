@@ -32,4 +32,6 @@ Matrix Utilities: The functions designed to allocate and safely free memory for 
 adrvarga: Algorithm generation, pathfinding solver, and ASCII/ANSI rendering.
 scristau: File parser, input validation, and error management.
 **Planning and Evolution**
-
+We have thought about using MLX as the graphic library to show the maze in a cooler way
+**Specials Tools**
+We only use the same tools and libreries that we use before on python modules.

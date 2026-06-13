@@ -56,9 +56,10 @@ class Dictionary:
 
     def get_is_perfect(self) -> bool | None:
         key_size: int = len(self._dictionary.keys())
-        if key_size == 0 or self._dictionary["PERFECT"] is None:
+        perfect_value: bool = self._dictionary["PERFECT"]
+        if key_size == 0 or perfect_value is None:
             return None
-        return self._dictionary["PERFECT"] == 'True'
+        return perfect_value == 'True'
 
     def check_mandatory_keys_are_in_dict(self) -> bool:
         return all(key in self.keys() for key in mandatory_keys)
