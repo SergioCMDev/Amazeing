@@ -38,8 +38,8 @@ class MazeGenerator:
             for widht_it in range(0, self.width):
                 current_cell_value: int = value
                 if (widht_it == 0):
-                    current_cell_value += get_value_of_positions(
-                        [WallPosition.WEST])
+                    current_cell_value &= ~(get_value_of_positions(
+                        [WallPosition.WEST]))
                 row.append(Cell(current_cell_value))
             self.matrix.append(row)
 
@@ -102,41 +102,41 @@ class MazeGenerator:
             self, visited: list[tuple],
             list_pos42: list[tuple[int, int]]) -> None:
 
-        self.matrix[int(list_pos42[0][0])][int(list_pos42[0][1])].value += (
+        self.matrix[int(list_pos42[0][0])][int(list_pos42[0][1])].value &= ~(
             get_value_of_positions([WallPosition.SOUTH]))
-        self.matrix[int(list_pos42[1][0])][int(list_pos42[1][1])].value += (
+        self.matrix[int(list_pos42[1][0])][int(list_pos42[1][1])].value &= ~(
             get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-        self.matrix[int(list_pos42[2][0])][int(list_pos42[2][1])].value += (
-            get_value_of_positions([WallPosition.NORTH]))
-        self.matrix[int(list_pos42[3][0])][int(list_pos42[3][1])].value += (
-            get_value_of_positions([WallPosition.WEST]))
-        self.matrix[int(list_pos42[4][0])][int(list_pos42[4][1])].value += (
+        self.matrix[int(list_pos42[2][0])][int(list_pos42[2][1])].value &= ~(
+            get_value_of_positions([WallPosition.NORTH, WallPosition.EAST]))
+        self.matrix[int(list_pos42[3][0])][int(list_pos42[3][1])].value &= ~(
+            get_value_of_positions([WallPosition.WEST, WallPosition.EAST]))
+        self.matrix[int(list_pos42[4][0])][int(list_pos42[4][1])].value &= ~(
             get_value_of_positions([WallPosition.SOUTH, WallPosition.WEST]))
-        self.matrix[int(list_pos42[5][0])][int(list_pos42[5][1])].value += (
+        self.matrix[int(list_pos42[5][0])][int(list_pos42[5][1])].value &= ~(
             get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-        self.matrix[int(list_pos42[6][0])][int(list_pos42[6][1])].value += (
+        self.matrix[int(list_pos42[6][0])][int(list_pos42[6][1])].value &= ~(
             get_value_of_positions([WallPosition.NORTH]))
-        self.matrix[int(list_pos42[7][0])][int(list_pos42[7][1])].value += (
+        self.matrix[int(list_pos42[7][0])][int(list_pos42[7][1])].value &= ~(
             get_value_of_positions([WallPosition.EAST]))
-        self.matrix[int(list_pos42[8][0])][int(list_pos42[8][1])].value += (
-            get_value_of_positions([WallPosition.WEST]))
-        self.matrix[int(list_pos42[9][0])][int(list_pos42[9][1])].value += (
+        self.matrix[int(list_pos42[8][0])][int(list_pos42[8][1])].value &= ~(
+            get_value_of_positions([WallPosition.WEST, WallPosition.EAST]))
+        self.matrix[int(list_pos42[9][0])][int(list_pos42[9][1])].value &= ~(
             get_value_of_positions([WallPosition.WEST, WallPosition.SOUTH]))
-        self.matrix[int(list_pos42[10][0])][int(list_pos42[10][1])].value += (
+        self.matrix[int(list_pos42[10][0])][int(list_pos42[10][1])].value &= ~(
             get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-        self.matrix[int(list_pos42[11][0])][int(list_pos42[11][1])].value += (
-            get_value_of_positions([WallPosition.WEST]))
-        self.matrix[int(list_pos42[12][0])][int(list_pos42[12][1])].value += (
-            get_value_of_positions([WallPosition.WEST]))
-        self.matrix[int(list_pos42[13][0])][int(list_pos42[13][1])].value += (
+        self.matrix[int(list_pos42[11][0])][int(list_pos42[11][1])].value &= ~(
+            get_value_of_positions([WallPosition.WEST, WallPosition.NORTH]))
+        self.matrix[int(list_pos42[12][0])][int(list_pos42[12][1])].value &= ~(
+            get_value_of_positions([WallPosition.WEST, WallPosition.EAST]))
+        self.matrix[int(list_pos42[13][0])][int(list_pos42[13][1])].value &= ~(
+            get_value_of_positions([WallPosition.SOUTH, WallPosition.EAST]))
+        self.matrix[int(list_pos42[14][0])][int(list_pos42[14][1])].value &= ~(
             get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-        self.matrix[int(list_pos42[14][0])][int(list_pos42[14][1])].value += (
-            get_value_of_positions([WallPosition.SOUTH, WallPosition.NORTH]))
-        self.matrix[int(list_pos42[15][0])][int(list_pos42[15][1])].value += (
-            get_value_of_positions([WallPosition.NORTH]))
-        self.matrix[int(list_pos42[16][0])][int(list_pos42[16][1])].value += (
-            get_value_of_positions([WallPosition.WEST]))
-        self.matrix[int(list_pos42[17][0])][int(list_pos42[17][1])].value += (
+        self.matrix[int(list_pos42[15][0])][int(list_pos42[15][1])].value &= ~(
+            get_value_of_positions([WallPosition.NORTH, WallPosition.EAST]))
+        self.matrix[int(list_pos42[16][0])][int(list_pos42[16][1])].value &= ~(
+            get_value_of_positions([WallPosition.WEST, WallPosition.EAST]))
+        self.matrix[int(list_pos42[17][0])][int(list_pos42[17][1])].value &= ~(
             get_value_of_positions([WallPosition.WEST]))
         for it_list in list_pos42:
             visited.append(it_list)
@@ -182,35 +182,35 @@ class MazeGenerator:
                 if temp_cord in visited:
                     continue
                 if random_direc == up:
-                    self.matrix[current_cord[0]][current_cord[1]].value += (
+                    self.matrix[current_cord[0]][current_cord[1]].value &= ~(
                         get_value_of_positions([WallPosition.NORTH]))
                     if (current_cord[0] - 1 >= 0):
                         self.matrix[
-                            current_cord[0] - 1][current_cord[1]].value += (
+                            current_cord[0] - 1][current_cord[1]].value &= ~(
                             get_value_of_positions([WallPosition.SOUTH]))
                     found_valid = True
                 elif random_direc == down:
-                    self.matrix[current_cord[0]][current_cord[1]].value += (
+                    self.matrix[current_cord[0]][current_cord[1]].value &= ~(
                         get_value_of_positions([WallPosition.SOUTH]))
                     if (current_cord[0] + 1 < self.height):
                         self.matrix[
-                            current_cord[0] + 1][current_cord[1]].value += (
+                            current_cord[0] + 1][current_cord[1]].value &= ~(
                             get_value_of_positions([WallPosition.NORTH]))
                     found_valid = True
                 elif random_direc == right:
-                    self.matrix[current_cord[0]][current_cord[1]].value += (
+                    self.matrix[current_cord[0]][current_cord[1]].value &= ~(
                         get_value_of_positions([WallPosition.EAST]))
                     if (current_cord[1] + 1 < self.width):
                         self.matrix[
-                            current_cord[0]][current_cord[1] + 1].value += (
+                            current_cord[0]][current_cord[1] + 1].value &= ~(
                             get_value_of_positions([WallPosition.WEST]))
                     found_valid = True
                 elif random_direc == left:
-                    self.matrix[current_cord[0]][current_cord[1]].value += (
+                    self.matrix[current_cord[0]][current_cord[1]].value &= ~(
                         get_value_of_positions([WallPosition.WEST]))
                     if (current_cord[1] - 1 >= 0):
                         self.matrix[
-                            current_cord[0]][current_cord[1] - 1].value += (
+                            current_cord[0]][current_cord[1] - 1].value &= ~(
                             get_value_of_positions([WallPosition.EAST]))
                     found_valid = True
                 stack.append(current_cord)
@@ -243,9 +243,9 @@ class MazeGenerator:
                     if cell_to_move in list_42_cells:
                         continue
                     else:
-                        cell_in_matrix.value += (
+                        cell_in_matrix.value &= ~(
                             get_value_of_positions([WallPosition.NORTH]))
-                        cell_to_move.value += (
+                        cell_to_move.value &= ~(
                             get_value_of_positions([WallPosition.SOUTH]))
                         return
                 if bit == 2:
@@ -255,9 +255,9 @@ class MazeGenerator:
                     if cell_to_move in list_42_cells:
                         continue
                     else:
-                        cell_in_matrix.value += (
+                        cell_in_matrix.value &= ~(
                             get_value_of_positions([WallPosition.EAST]))
-                        cell_to_move.value += (
+                        cell_to_move.value &= ~(
                             get_value_of_positions([WallPosition.WEST]))
                         return
                 if bit == 4:
@@ -267,9 +267,9 @@ class MazeGenerator:
                     if cell_to_move in list_42_cells:
                         continue
                     else:
-                        cell_in_matrix.value += (
+                        cell_in_matrix.value &= ~(
                             get_value_of_positions([WallPosition.SOUTH]))
-                        cell_to_move.value += (
+                        cell_to_move.value &= ~(
                             get_value_of_positions([WallPosition.NORTH]))
                         return
                 if bit == 8:
@@ -279,9 +279,9 @@ class MazeGenerator:
                     if cell_to_move in list_42_cells:
                         continue
                     else:
-                        cell_in_matrix.value += (
+                        cell_in_matrix.value &= ~(
                             get_value_of_positions([WallPosition.WEST]))
-                        cell_to_move.value += (
+                        cell_to_move.value &= ~(
                             get_value_of_positions([WallPosition.EAST]))
 
                         return

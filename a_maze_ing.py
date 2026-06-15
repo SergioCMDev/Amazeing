@@ -102,7 +102,7 @@ def the_txt(matrix: list[list[Cell]],
                 for cell in row:
                     row_hex += f"{cell.value:X}"
                 f.write(row_hex + "\n")
-            f.write(f"Entry: {data_parsed.get_entry()}\n")
+            f.write(f"\nEntry: {data_parsed.get_entry()}\n")
             f.write(f"Exit: {data_parsed.get_exit()}\n")
             the_solution: str = ""
             for i in solution:
