@@ -102,8 +102,19 @@ def the_txt(matrix: list[list[Cell]],
                 for cell in row:
                     row_hex += f"{cell.value:X}"
                 f.write(row_hex + "\n")
-            f.write(f"\nEntry: {data_parsed.get_entry()}\n")
-            f.write(f"Exit: {data_parsed.get_exit()}\n")
+            tuple_entry: tuple[int, int] | None = data_parsed.get_entry()
+            tuple_exit: tuple[int, int] | None = data_parsed.get_exit()
+
+            if (tuple_entry is None or tuple_exit is None):
+                return
+            pos_1: int = tuple_entry[0]
+            pos_2: int = tuple_entry[1]
+            str_pos = f"{pos_1},{pos_2}"
+            f.write(f"\n{str_pos}\n")
+            pos_1 = tuple_exit[0]
+            pos_2 = tuple_exit[1]
+            str_pos = f"{pos_1},{pos_2}"
+            f.write(f"{str_pos}\n")
             the_solution: str = ""
             for i in solution:
                 the_solution += i

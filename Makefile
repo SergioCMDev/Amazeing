@@ -20,7 +20,7 @@ help:
 
 install: requirements.txt
 	@echo "Creating env"
-	python3 -m venv venv 
+	python3 -m venv $(VENV) 
 	@echo "Install requirements"
 	$(PIP) install -r requirements.txt
 
@@ -29,7 +29,7 @@ lint:
 	$(MYPY) . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
 	
 	@echo "Executing flake8"
-	$(FLAKE8) .
+	$(FLAKE8) . --exclude=$(VENV)
 
 run: install
 	@echo "Executing program"
@@ -41,7 +41,7 @@ debug:
 
 clean:
 	rm -rf __pycache__
-	rm -rf venv
+	rm -rf $(VENV)
 
 clean_build:
 	rm -r maze_generator.egg-info

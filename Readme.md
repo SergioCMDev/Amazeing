@@ -11,6 +11,8 @@ If you want to see the maze, choose "make run".
 Now you will see the generic maze and under the maze a few options to generate another mazes, change colors, show/hide solutions, an exit.
 You can modify the config.txt to change the configuration of the maze.
 To finish the proyect you will recieve output_maze.txt. Here you have the hexadecimal last maze that you saw, the start and finish point and the solution in coordinates N, S, E, W.
+
+If you want to run the code using the generator like a moduel/librery, use the command: "pip install maze_generator-0.1.0-py3-none-any.whl"
 **Resources**
 The knowledge of the others students in 42 Malaga.
 https://maestraonline.com/simbolos-ascii-e-iconos-para-todos-los-gustos/ 3/6/2026
